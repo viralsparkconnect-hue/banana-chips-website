@@ -223,4 +223,120 @@ export default function Contact() {
             </form>
           </div>
 
-          {
+          {/* Contact Information & FAQ */}
+          <div className="space-y-8">
+            {/* Contact Info Cards */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {contactInfo.map((info, index) => (
+                <div key={index} className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+                  <div className="text-4xl mb-3">{info.icon}</div>
+                  <h3 className="text-lg font-bold text-gray-800 mb-3">{info.title}</h3>
+                  <div className="space-y-1">
+                    {info.details.map((detail, i) => (
+                      <p key={i} className="text-gray-600 text-sm">{detail}</p>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Quick Contact */}
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Need Immediate Help?</h3>
+              <div className="space-y-3">
+                <a 
+                  href="tel:+919876543210"
+                  className="flex items-center p-3 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+                >
+                  <span className="text-2xl mr-3">📞</span>
+                  <div>
+                    <p className="font-semibold text-gray-800">Call Us Now</p>
+                    <p className="text-sm text-gray-600">+91 9876543210</p>
+                  </div>
+                </a>
+                
+                <a 
+                  href="mailto:hello@chippyfy.com"
+                  className="flex items-center p-3 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+                >
+                  <span className="text-2xl mr-3">✉️</span>
+                  <div>
+                    <p className="font-semibold text-gray-800">Email Us</p>
+                    <p className="text-sm text-gray-600">hello@chippyfy.com</p>
+                  </div>
+                </a>
+                
+                <a 
+                  href="https://wa.me/919876543210"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center p-3 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+                >
+                  <span className="text-2xl mr-3">💬</span>
+                  <div>
+                    <p className="font-semibold text-gray-800">WhatsApp</p>
+                    <p className="text-sm text-gray-600">Chat with us instantly</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <section className="mt-16">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+            <p className="text-xl text-gray-600">Quick answers to common questions</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {faqs.map((faq, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-3">{faq.question}</h3>
+                <p className="text-gray-600">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Map Section (Placeholder) */}
+        <section className="mt-16">
+          <div className="bg-gray-200 rounded-xl h-64 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-6xl mb-4">🗺️</div>
+              <h3 className="text-xl font-bold text-gray-600 mb-2">Find Us Here</h3>
+              <p className="text-gray-500">Nashik, Maharashtra, India</p>
+              <p className="text-sm text-gray-400 mt-2">(Google Maps integration coming soon)</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Business Hours */}
+        <section className="mt-16">
+          <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-xl p-8 text-center text-white">
+            <h2 className="text-3xl font-bold mb-6">Business Hours</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-semibold mb-4">📞 Customer Support</h3>
+                <div className="space-y-2">
+                  <p>Monday - Saturday: 9:00 AM - 6:00 PM</p>
+                  <p>Sunday: 10:00 AM - 4:00 PM</p>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-4">🚚 Order Processing</h3>
+                <div className="space-y-2">
+                  <p>Monday - Saturday: 8:00 AM - 7:00 PM</p>
+                  <p>Same day processing for orders before 2 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <Footer />
+    </>
+  )
+}
