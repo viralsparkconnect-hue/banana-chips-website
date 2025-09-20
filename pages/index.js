@@ -348,41 +348,46 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {products.map((product, index) => (
-              <div 
-                key={index} 
-                className="group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
-              >
-                <div className="relative p-8 text-center">
-                  {product.bestseller && (
-                    <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                      🔥 Global Bestseller
-                    </div>
-                  )}
-                  
-                  <div className="text-7xl mb-6 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                    {product.emoji}
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{product.description}</p>
-                  
-                  <div className="flex items-center justify-center gap-2 mb-4">
-                    <span className="text-2xl font-bold text-green-600">{product.price}</span>
-                    <span className="text-lg text-gray-400 line-through">{product.originalPrice}</span>
-                    <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-2 py-1 rounded-full text-xs font-bold">
-                      {product.discount}
-                    </span>
-                  </div>
-                  
-              <button
-  onClick={() => addToCart(product)}
-  className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-3 px-6 rounded-2xl transition-all duration-300 transform group-hover:scale-105 shadow-lg"
->
-  🛒 Add to Cart
-</button>
+         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+  {products.map((product, index) => (
+    <div 
+      key={index} 
+      className="group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
+    >
+      <div className="relative p-8 text-center">
+        {product.bestseller && (
+          <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+            🔥 Global Bestseller
+          </div>
+        )}
+        
+        <div className="text-7xl mb-6 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+          {product.emoji}
+        </div>
+        
+        <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
+        <p className="text-gray-600 text-sm mb-4">{product.description}</p>
+        
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <span className="text-2xl font-bold text-green-600">{product.price}</span>
+          <span className="text-lg text-gray-400 line-through">{product.originalPrice}</span>
+          <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+            {product.discount}
+          </span>
+        </div>
+        
+        <button
+          onClick={() => addToCart(product)}
+          className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-3 px-6 rounded-2xl transition-all duration-300 transform group-hover:scale-105 shadow-lg"
+        >
+          🛒 Add to Cart
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
 
+{/* Only ONE View All Products below the grid */}
 <div className="text-center mt-6">
   <Link
     href="/products"
@@ -392,6 +397,7 @@ export default function Home() {
     <span className="group-hover:translate-x-1 transition-transform">→</span>
   </Link>
 </div>
+
 
 
         <div className="text-center mt-6">
