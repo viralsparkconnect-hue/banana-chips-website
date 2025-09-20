@@ -21,14 +21,25 @@ export const CartProvider = ({ children }) => {
     })
   }
 
-  // 🔄 Update item quantity
+  // 🔽 Decrease item quantity
+  const decreaseQuantity = (id) => {
+    setCart((prev) =>
+      prev
+        .map((i) =>
+          i.id === id ? { ...i, quantity: i.quantity - 1 } : i
+        )
+        .filter((i) => i.quantity > 0) // remove item if quantity hits 0
+    )
+  }
+
+  // 🔄 Update item quantity directly
   const updateQuantity = (id, quantity) => {
     setCart((prev) =>
       prev.map((i) => (i.id === id ? { ...i, quantity } : i))
     )
   }
 
-  // ➖ Remove item
+  // ➖ Remove item entirely
   const removeFromCart = (id) => {
     setCart((prev) => prev.filter((i) => i.id !== id))
   }
@@ -66,6 +77,7 @@ export const CartProvider = ({ children }) => {
       value={{
         cart,
         addToCart,
+        decreaseQuantity,   // 👈 new
         updateQuantity,
         removeFromCart,
         clearCart,
