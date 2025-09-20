@@ -376,13 +376,23 @@ export default function Home() {
                     </span>
                   </div>
                   
-                <button
+               <button
   onClick={() => addToCart(product)}
-  className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 
-             text-black font-bold py-3 px-6 rounded-2xl transition-all duration-300 
-             transform group-hover:scale-105 shadow-lg"
-> 🛒 Add to Cart
+  className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-3 px-6 rounded-2xl transition-all duration-300 transform group-hover:scale-105 shadow-lg"
+>
+  🛒 Add to Cart
 </button>
+
+<div className="text-center mt-6">
+  <Link
+    href="/products"
+    className="group bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto w-fit"
+  >
+    View All Products
+    <span className="group-hover:translate-x-1 transition-transform">→</span>
+  </Link>
+</div>
+
           <div className="text-center">
             <Link href="/products" className="group bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto w-fit">
               View All Products
