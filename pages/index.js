@@ -394,7 +394,7 @@ export default function Home() {
 </div>
 
 
-          <div className="text-center mt-6">
+        <div className="text-center mt-6">
   <Link
     href="/products"
     className="group bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto w-fit"
@@ -403,6 +403,7 @@ export default function Home() {
     <span className="group-hover:translate-x-1 transition-transform">→</span>
   </Link>
 </div>
+
 
 
       </div>
