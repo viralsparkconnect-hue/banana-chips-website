@@ -1,4 +1,66 @@
-const values = [
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
+
+export default function About() {
+  const team = [
+    {
+      name: "Amol Patil",
+      position: "Founder & CEO",
+      image: "👨‍💼",
+      description: "Visionary leader with 10+ years in food industry. Passionate about bringing healthy snacks to every home globally.",
+      achievements: ["Food Technology Graduate", "Former Quality Manager at leading FMCG", "Awarded Best Entrepreneur 2024"],
+      quote: "Our dream is to make Chippyfy a household name from New York to Tokyo, while staying true to our Maharashtra roots."
+    },
+    {
+      name: "Pratik Patil",
+      position: "Co-founder & CMO",
+      image: "👨‍💻",
+      description: "Marketing expert and brand strategist. Dedicated to making Chippyfy a beloved global brand while preserving authenticity.",
+      achievements: ["MBA in Marketing", "10+ years in Brand Management", "Digital Marketing Expert"],
+      quote: "Every packet we ship carries the warmth of Indian hospitality and the promise of authentic taste worldwide."
+    }
+  ]
+
+  const milestones = [
+    { 
+      year: "2020", 
+      event: "Company Founded", 
+      description: "Started with a dream to revolutionize global snacking from our home in Nashik",
+      icon: "🏠"
+    },
+    { 
+      year: "2021", 
+      event: "First International Order", 
+      description: "Shipped our first batch to USA, marking our global journey",
+      icon: "🌍"
+    },
+    { 
+      year: "2022", 
+      event: "10,000+ Global Customers", 
+      description: "Reached customers across 25 countries with authentic Indian flavors",
+      icon: "🎯"
+    },
+    { 
+      year: "2023", 
+      event: "ISO Certification", 
+      description: "Achieved international quality standards and food safety certification",
+      icon: "🏆"
+    },
+    { 
+      year: "2024", 
+      event: "50+ Countries Served", 
+      description: "Expanded to serve customers across all continents",
+      icon: "🌏"
+    },
+    { 
+      year: "2025", 
+      event: "Digital Excellence", 
+      description: "Launched comprehensive e-commerce platform for seamless global ordering",
+      icon: "💻"
+    }
+  ]
+
+  const values = [
     {
       icon: "🌱",
       title: "Natural & Pure",
@@ -318,70 +380,35 @@ const values = [
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+      <section className="py-20 bg-gradient-to-r from-yellow-400 to-orange-400">
+        <div className="container mx-auto px-6 text-center">
+          <div className="max-w-4xl mx-auto text-black">
+            <div className="text-8xl mb-8">🤝</div>
+            <h2 className="text-5xl font-bold mb-6">Join Our Global Family</h2>
+            <p className="text-2xl mb-12 opacity-90">
+              Experience the authentic taste of India, crafted with love in Maharashtra and delivered fresh to your doorstep, 
+              wherever you are in the world.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <a href="/products" className="bg-black text-white font-bold py-4 px-8 rounded-2xl shadow-2xl hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
+                🛒 Taste Our Products
+              </a>
+              <a href="/contact" className="border-2 border-black text-black font-bold py-4 px-8 rounded-2xl hover:bg-black hover:text-white transition-all duration-300 transform hover:scale-105">
+                📞 Get In Touch
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-export default function About() {
-  const team = [
-    {
-      name: "Amol Patil",
-      position: "Founder & CEO",
-      image: "👨‍💼",
-      description: "Visionary leader with 10+ years in food industry. Passionate about bringing healthy snacks to every home globally.",
-      achievements: ["Food Technology Graduate", "Former Quality Manager at leading FMCG", "Awarded Best Entrepreneur 2024"],
-      quote: "Our dream is to make Chippyfy a household name from New York to Tokyo, while staying true to our Maharashtra roots."
-    },
-    {
-      name: "Pratik Patil",
-      position: "Co-founder & CMO",
-      image: "👨‍💻",
-      description: "Marketing expert and brand strategist. Dedicated to making Chippyfy a beloved global brand while preserving authenticity.",
-      achievements: ["MBA in Marketing", "10+ years in Brand Management", "Digital Marketing Expert"],
-      quote: "Every packet we ship carries the warmth of Indian hospitality and the promise of authentic taste worldwide."
-    }
-  ]
+      <Footer />
 
-  const milestones = [
-    { 
-      year: "2020", 
-      event: "Company Founded", 
-      description: "Started with a dream to revolutionize global snacking from our home in Nashik",
-      icon: "🏠"
-    },
-    { 
-      year: "2021", 
-      event: "First International Order", 
-      description: "Shipped our first batch to USA, marking our global journey",
-      icon: "🌍"
-    },
-    { 
-      year: "2022", 
-      event: "10,000+ Global Customers", 
-      description: "Reached customers across 25 countries with authentic Indian flavors",
-      icon: "🎯"
-    },
-    { 
-      year: "2023", 
-      event: "ISO Certification", 
-      description: "Achieved international quality standards and food safety certification",
-      icon: "🏆"
-    },
-    { 
-      year: "2024", 
-      event: "50+ Countries Served", 
-      description: "Expanded to serve customers across all continents",
-      icon: "🌏"
-    },
-    { 
-      year: "2025", 
-      event: "Digital Excellence", 
-      description: "Launched comprehensive e-commerce platform for seamless global ordering",
-      icon: "💻"
-    }
-  ]
-
-  const values = [
-    {
-      icon: "🌱",
-      title: "Natural & Pure",
-      description: "We use only the finest bananas with no artificial preservatives or
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-15px) rotate(180deg); }
+        }
+      `}</style>
+    </>
+  )
+}
