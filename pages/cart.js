@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import { useCart } from '@/context/CartContext'
 
 export default function Cart() {
-  const { cart, addToCart, removeFromCart, clearCart } = useCart()
+  const { cart, addToCart, decreaseQuantity, removeFromCart, clearCart } = useCart()
   const router = useRouter()
 
   // 👉 Calculate totals
@@ -57,7 +57,7 @@ export default function Cart() {
                 {/* Quantity controls */}
                 <div className="flex items-center space-x-3">
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => decreaseQuantity(item.id)} // 👈 fixed
                     className="bg-red-500 text-white px-3 py-1 rounded-lg"
                   >
                     −
