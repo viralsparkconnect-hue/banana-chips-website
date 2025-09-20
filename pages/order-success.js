@@ -1,65 +1,97 @@
 // pages/order-success.js
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useCart } from '@/context/CartContext'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { useCart } from '@/context/CartContext'
-import Confetti from 'react-confetti'
 
 export default function OrderSuccess() {
   const router = useRouter()
-  const { order } = useCart()
+  const { order, clearCart } = useCart()
 
-  // If no order exists (direct visit), redirect to cart
   useEffect(() => {
     if (!order) {
-      router.replace('/cart')
+      router.replace('/') // If no order, redirect to home
+    } else {
+      clearCart() // Empty cart after successful order
     }
-  }, [order, router])
+  }, [order, clearCart, router])
 
   if (!order) return null
 
   return (
     <>
       <Navbar />
-      <Confetti numberOfPieces={300} recycle={false} />
-      <div className="container mx-auto px-6 py-16 text-center">
-        <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-          <div className="text-7xl mb-6">🎉</div>
-          <h1 className="text-3xl font-bold text-green-600 mb-4">Order Confirmed!</h1>
-          <p className="text-gray-600 mb-6">
-            Thank you, <span className="font-semibold">{order.customer.fullName}</span>!  
-            Your delicious snacks are on the way 🚚
+
+      <div className="container mx-auto px-6 py-20 text-center relative overflow-hidden">
+        {/* 🎉 Emoji Confetti Animation */}
+        <div className="absolute inset-0 pointer-events-none">
+          {Array.from({ length: 30 }).map((_, i) => (
+            <span
+              key={i}
+              className="absolute text-2xl animate-fall"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${2 + Math.random() * 3}s`,
+              }}
+            >
+              🎉
+            </span>
+          ))}
+        </div>
+
+        <div className="relative z-10 max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-lg">
+          <div className="text-7xl mb-4">✅</div>
+          <h2 className="text-3xl font-bold text-green-600 mb-4">
+            Order Placed Successfully!
+          </h2>
+          <p className="text-gray-700 mb-6">
+            Thank you for shopping with us. Your order details are below:
           </p>
 
           {/* Order Summary */}
-          <div className="border-t pt-6 text-left space-y-4">
-            {order.items.map((item) => (
-              <div key={item.id} className="flex justify-between">
-                <span>{item.name} × {item.quantity}</span>
-                <span>₹{item.price * item.quantity}</span>
-              </div>
-            ))}
-            <div className="border-t pt-4 font-bold flex justify-between">
-              <span>Total</span>
-              <span className="text-yellow-600">₹{order.total}</span>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <p className="text-gray-600">Payment Method: <strong>{order.paymentMethod.toUpperCase()}</strong></p>
-            <p className="text-gray-600">Delivery to: {order.customer.address}, {order.customer.city}, {order.customer.state} - {order.customer.pincode}</p>
+          <div className="text-left space-y-3">
+            <p><span className="font-semibold">Order ID:</span> {order.id}</p>
+            <p><span className="font-semibold">Name:</span> {order.fullName}</p>
+            <p><span className="font-semibold">Email:</span> {order.email}</p>
+            <p><span className="font-semibold">Phone:</span> {order.phone}</p>
+            <p><span className="font-semibold">Address:</span> {order.address}, {order.city}, {order.state} - {order.pincode}</p>
+            <p><span className="font-semibold">Payment Method:</span> {order.paymentMethod}</p>
+            <p className="font-bold text-yellow-600 text-lg">
+              Total Paid: ₹{order.total}
+            </p>
           </div>
 
           <button
             onClick={() => router.push('/products')}
-            className="mt-8 bg-yellow-400 hover:bg-yellow-500 px-6 py-3 rounded-full font-bold"
+            className="mt-8 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-full transition"
           >
             Continue Shopping
           </button>
         </div>
       </div>
+
       <Footer />
+
+      {/* 🌟 CSS Confetti Animation */}
+      <style jsx>{`
+        @keyframes fall {
+          0% {
+            transform: translateY(-100vh) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+        .animate-fall {
+          position: absolute;
+          animation-name: fall;
+          animation-iteration-count: infinite;
+        }
+      `}</style>
     </>
   )
 }
