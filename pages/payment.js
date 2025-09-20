@@ -48,14 +48,15 @@ export default function Payment() {
 
     // Save order in context
     setOrder({
-      items: cart,
-      subtotal,
-      discount,
-      shipping,
-      total,
-      paymentMethod,
-      customer: formData
-    })
+  id: Date.now(), // unique order ID
+  items: cart,
+  subtotal,
+  discount,
+  shipping,
+  total,
+  paymentMethod,
+  ...formData, // spread customer fields directly into order
+})
 
     clearCart() // empty cart after placing order
     setIsProcessing(false)
