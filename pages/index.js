@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import { useCart } from '@/context/CartContext'   // ✅ added
 
 export default function Home() {
+  const { addToCart } = useCart()  // ✅ use cart context
   const [currentSlide, setCurrentSlide] = useState(0)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [isVisible, setIsVisible] = useState({})
@@ -60,36 +62,40 @@ export default function Home() {
 
   const products = [
     {
+      id: 1,
       name: "Classic Salted Thin",
-      price: "₹120",
-      originalPrice: "₹150",
+      price: 120,
+      originalPrice: 150,
       emoji: "🥨",
       bestseller: true,
       discount: "20% OFF",
       description: "Crispy thin-cut banana chips with sea salt"
     },
     {
+      id: 2,
       name: "Peri-Peri Spice",
-      price: "₹140",
-      originalPrice: "₹170",
+      price: 140,
+      originalPrice: 170,
       emoji: "🌶️",
       bestseller: false,
       discount: "18% OFF",
       description: "International peri-peri flavor on thick chips"
     },
     {
+      id: 3,
       name: "Sweet Jaggery",
-      price: "₹160",
-      originalPrice: "₹200",
+      price: 160,
+      originalPrice: 200,
       emoji: "🍯",
       bestseller: true,
       discount: "20% OFF",
       description: "Naturally sweetened with organic jaggery"
     },
     {
+      id: 4,
       name: "Spicy Masala",
-      price: "₹130",
-      originalPrice: "₹160",
+      price: 130,
+      originalPrice: 160,
       emoji: "🔥",
       bestseller: true,
       discount: "19% OFF",
