@@ -1,45 +1,34 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { useCart } from '@/context/CartContext'
 
 export default function Cart() {
-  const { cart, removeFromCart, addToCart } = useCart()
+  const {
+    cart,
+    updateQuantity,
+    removeFromCart,
+    applyCoupon,
+    subtotal,
+    discountAmount,
+    shipping,
+    total,
+  } = useCart()
+
   const [couponCode, setCouponCode] = useState('')
-  const [discount, setDiscount] = useState(0)
   const [showCheckout, setShowCheckout] = useState(false)
   const router = useRouter()
 
-  const coupons = {
-    'FIRST10': { discount: 10, minOrder: 100 },
-    'CHIPPYFY20': { discount: 20, minOrder: 200 },
-    'BULK30': { discount: 30, minOrder: 500 }
-  }
-
-  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-  const discountAmount = (subtotal * discount) / 100
-  const shipping = subtotal > 299 ? 0 : 50
-  const total = subtotal - discountAmount + shipping
-
-  const applyCoupon = () => {
-    const coupon = coupons[couponCode.toUpperCase()]
-    if (coupon && subtotal >= coupon.minOrder) {
-      setDiscount(coupon.discount)
-    } else {
+  const handleApplyCoupon = () => {
+    const success = applyCoupon(couponCode)
+    if (!success) {
       alert('Invalid coupon code or minimum order not met')
     }
   }
 
-  const updateQuantity = (item, newQuantity) => {
-    if (newQuantity <= 0) {
-      removeFromCart(item.id)
-    } else {
-      addToCart({ ...item, quantity: newQuantity - item.quantity }) // adjust quantity
-    }
-  }
-
+  // ✅ Empty cart UI
   if (cart.length === 0) {
     return (
       <>
@@ -79,20 +68,21 @@ export default function Cart() {
                   
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-gray-800">{item.name}</h3>
-                    <p className="text-gray-600">{item.weight || "100g"} pack</p>
+                    <p className="text-gray-600">{item.weight} pack</p>
                     <p className="text-lg font-semibold text-yellow-600">₹{item.price}</p>
                   </div>
                   
+                  {/* Quantity Controls */}
                   <div className="flex items-center space-x-3">
                     <button
-                      onClick={() => updateQuantity(item, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
                       className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center font-bold"
                     >
                       -
                     </button>
                     <span className="w-12 text-center font-semibold">{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
                       className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center font-bold"
                     >
                       +
@@ -138,11 +128,19 @@ export default function Cart() {
                   className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 />
                 <button
-                  onClick={applyCoupon}
+                  onClick={handleApplyCoupon}
                   className="bg-yellow-400 hover:bg-yellow-500 text-black font-medium px-4 py-2 rounded-lg"
                 >
                   Apply
                 </button>
+              </div>
+              
+              {/* Available Coupons */}
+              <div className="mt-3 text-xs text-gray-600">
+                <p>Available coupons:</p>
+                <p>• FIRST10 - 10% off on ₹100+</p>
+                <p>• CHIPPYFY20 - 20% off on ₹200+</p>
+                <p>• BULK30 - 30% off on ₹500+</p>
               </div>
             </div>
             
@@ -152,9 +150,9 @@ export default function Cart() {
                 <span className="font-semibold">₹{subtotal}</span>
               </div>
               
-              {discount > 0 && (
+              {discountAmount > 0 && (
                 <div className="flex justify-between text-green-600">
-                  <span>Discount ({discount}%)</span>
+                  <span>Discount</span>
                   <span>-₹{discountAmount}</span>
                 </div>
               )}
@@ -165,6 +163,10 @@ export default function Cart() {
                   {shipping === 0 ? 'FREE' : `₹${shipping}`}
                 </span>
               </div>
+              
+              {subtotal < 299 && (
+                <p className="text-xs text-gray-500">Add ₹{299 - subtotal} more for free shipping</p>
+              )}
               
               <div className="border-t pt-3 flex justify-between text-lg font-bold">
                 <span>Total</span>
@@ -178,6 +180,10 @@ export default function Cart() {
             >
               Proceed to Checkout
             </button>
+            
+            <div className="mt-4 text-center">
+              <p className="text-xs text-gray-500">🔒 Secure checkout with 256-bit SSL</p>
+            </div>
           </div>
         </div>
       </div>
