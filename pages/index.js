@@ -394,29 +394,35 @@ export default function Home() {
 </div>
 
 
-          <div className="text-center">
-            <Link href="/products" className="group bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto w-fit">
-              View All Products
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+          <div className="text-center mt-6">
+  <Link
+    href="/products"
+    className="group bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto w-fit"
+  >
+    View All Products
+    <span className="group-hover:translate-x-1 transition-transform">→</span>
+  </Link>
+</div>
 
-      {/* Global Testimonials */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <span className="inline-block bg-gradient-to-r from-blue-400 to-purple-400 text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
-              🌍 Global Reviews
-            </span>
-            <h2 className="text-5xl font-bold text-gray-800 mb-6">
-              Loved Across Continents
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Don't just take our word for it. Here's what our global family says about Chippyfy!
-            </p>
-          </div>
+
+      </div>
+</section>
+
+{/* Global Testimonials */}
+<section className="py-20 bg-white">
+  <div className="container mx-auto px-6">
+    <div className="text-center mb-16">
+      <span className="inline-block bg-gradient-to-r from-blue-400 to-purple-400 text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
+        🌍 Global Reviews
+      </span>
+      <h2 className="text-5xl font-bold text-gray-800 mb-6">
+        Loved Across Continents
+      </h2>
+      <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        Don't just take our word for it. Here's what our global family says about Chippyfy!
+      </p>
+    </div>
+
 
           <div className="relative max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-3xl p-8 shadow-2xl">
