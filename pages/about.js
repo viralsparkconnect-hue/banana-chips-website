@@ -180,4 +180,67 @@ export default function About() {
                     </div>
                   </div>
                   
-                  {/* Timeline dot
+                  {/* Timeline dot */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-yellow-400 rounded-full border-4 border-white shadow-lg"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Statistics */}
+      <section className="py-20 bg-gradient-to-r from-yellow-400 to-orange-400">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8 text-center text-white">
+            <div>
+              <div className="text-4xl font-bold mb-2">50,000+</div>
+              <p className="text-lg opacity-90">Happy Customers</p>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">1,000,000+</div>
+              <p className="text-lg opacity-90">Packets Sold</p>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">25+</div>
+              <p className="text-lg opacity-90">Cities Covered</p>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">4.9/5</div>
+              <p className="text-lg opacity-90">Customer Rating</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission & Vision */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="text-center p-8 bg-yellow-50 rounded-2xl">
+              <div className="text-5xl mb-6">🎯</div>
+              <h3 className="text-3xl font-bold text-gray-800 mb-4">Our Mission</h3>
+              <p className="text-lg text-gray-600">
+                To provide the highest quality, most delicious banana chips while supporting local farmers 
+                and promoting healthy snacking habits across India. We're committed to bringing joy and 
+                satisfaction with every crispy bite.
+              </p>
+            </div>
+            
+            <div className="text-center p-8 bg-orange-50 rounded-2xl">
+              <div className="text-5xl mb-6">🔮</div>
+              <h3 className="text-3xl font-bold text-gray-800 mb-4">Our Vision</h3>
+              <p className="text-lg text-gray-600">
+                To become India's most loved and trusted snack brand, known for innovation, quality, and 
+                customer satisfaction. We envision a future where Chippyfy is synonymous with premium 
+                healthy snacking.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </>
+  )
+}
