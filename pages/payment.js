@@ -170,7 +170,7 @@ export default function Products() {
     { id: 'newest', name: 'Newest First' }
   ]
 
-  // ✅ Optimized Product Image Component for clean bowl-style product photos
+  // ✅ Optimized for vertical/portrait product images (1536x1024px)
   const ProductImage = ({ src, alt, className, fallbackEmoji = "🍌" }) => {
     const [imageLoaded, setImageLoaded] = useState(false)
     const [imageError, setImageError] = useState(false)
@@ -191,7 +191,7 @@ export default function Products() {
           }`}
           style={{ 
             display: imageError ? 'none' : 'block',
-            aspectRatio: '1/1',
+            aspectRatio: '2/3', // Perfect for 1024x1536 (width/height)
             objectPosition: 'center',
             objectFit: 'cover'
           }}
@@ -246,11 +246,11 @@ export default function Products() {
           </div>
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="text-center">
-              <div className="mb-6 bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-2xl shadow-lg">
+              <div className="mb-6 bg-gradient-to-br from-gray-50 to-gray-100 p-3 rounded-2xl shadow-lg">
                 <ProductImage 
                   src={product.image} 
                   alt={product.name}
-                  className="w-64 h-64 mx-auto"
+                  className="w-full h-80 mx-auto"
                 />
               </div>
             </div>
@@ -368,11 +368,11 @@ export default function Products() {
           </div>
         </div>
 
-        {/* 🟨 Enhanced Product Grid/List with better spacing */}
-        <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'} gap-6`}>
+        {/* 🟨 Grid optimized for vertical images */}
+        <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3' : 'grid-cols-1'} gap-8`}>
           {filteredProducts.map(product => (
             <div key={product.id} className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-102 overflow-hidden border border-gray-100">
-              <div className="relative p-6 text-center">
+              <div className="relative p-4 text-center">
                 {/* Bestseller Badge with better positioning */}
                 {product.rating >= 4.5 && (
                   <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold z-10 shadow-lg">
@@ -390,17 +390,17 @@ export default function Products() {
                   ❤️
                 </button>
 
-                {/* Clean product image display for bowl-style photos */}
-                <div className="mb-4 bg-gradient-to-br from-gray-50 to-gray-100 p-3 rounded-2xl shadow-sm">
+                {/* Vertical product image display - showcasing designer's work */}
+                <div className="mb-4 bg-gradient-to-br from-gray-50 to-gray-100 p-2 rounded-2xl shadow-sm">
                   <ProductImage 
                     src={product.image} 
                     alt={product.name}
-                    className="w-36 h-36 mx-auto"
+                    className="w-full h-48 mx-auto"
                   />
                 </div>
                 
-                <h3 className="text-lg font-bold text-gray-800 mb-2 min-h-[3rem] flex items-center justify-center px-2">{product.name}</h3>
-                <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[2.5rem] px-2">{product.description}</p>
+                <h3 className="text-lg font-bold text-gray-800 mb-2 min-h-[2.5rem] flex items-center justify-center px-1">{product.name}</h3>
+                <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[2rem] px-1">{product.description}</p>
                 
                 {/* Rating */}
                 <div className="flex items-center justify-center gap-1 mb-3">
@@ -421,17 +421,17 @@ export default function Products() {
                   </span>
                 </div>
                 
-                {/* Buttons with better sizing */}
-                <div className="flex gap-2 px-2">
+                {/* Buttons optimized for vertical layout */}
+                <div className="flex gap-2 px-1">
                   <button 
                     onClick={() => addToCart(product)} 
-                    className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-2.5 px-3 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg text-sm"
+                    className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-2.5 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg text-sm"
                   >
                     🛒 Add to Cart
                   </button>
                   <button 
                     onClick={() => setShowQuickView(product)} 
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2.5 rounded-xl transition-all duration-300 text-sm"
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2.5 rounded-xl transition-all duration-300 text-sm"
                   >
                     👁
                   </button>
