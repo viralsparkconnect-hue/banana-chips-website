@@ -5,9 +5,17 @@ const WishlistContext = createContext()
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([])     // 💖 wishlist items
+  const [isClient, setIsClient] = useState(false)  // 🖥️ client-side check
 
-  // 💾 Load from localStorage on mount
+  // 🖥️ Check if we're on client side
   useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // 💾 Load from localStorage on mount (client-side only)
+  useEffect(() => {
+    if (!isClient) return
+    
     const saved = localStorage.getItem('chippyfy-wishlist')
     if (saved) {
       try {
@@ -16,12 +24,13 @@ export const WishlistProvider = ({ children }) => {
         console.error('Error loading wishlist:', error)
       }
     }
-  }, [])
+  }, [isClient])
 
-  // 💾 Save to localStorage when wishlist changes
+  // 💾 Save to localStorage when wishlist changes (client-side only)
   useEffect(() => {
+    if (!isClient) return
     localStorage.setItem('chippyfy-wishlist', JSON.stringify(wishlist))
-  }, [wishlist])
+  }, [wishlist, isClient])
 
   // ➕ Add to wishlist
   const addToWishlist = (item) => {
