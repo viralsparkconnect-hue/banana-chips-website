@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { useCart } from '@/context/CartContext'   // ✅ added
+import { useCart } from '@/context/CartContext'
 
 export default function Home() {
-  const { addToCart } = useCart()  // ✅ use cart context
+  const { addToCart } = useCart()
   const [currentSlide, setCurrentSlide] = useState(0)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [isVisible, setIsVisible] = useState({})
@@ -66,7 +66,7 @@ export default function Home() {
       name: "Classic Salted Thin",
       price: 120,
       originalPrice: 150,
-      emoji: "🥨",
+      image: "/images/products/classic-salted.jpg",
       bestseller: true,
       discount: "20% OFF",
       description: "Crispy thin-cut banana chips with sea salt"
@@ -76,7 +76,7 @@ export default function Home() {
       name: "Peri-Peri Spice",
       price: 140,
       originalPrice: 170,
-      emoji: "🌶️",
+      image: "/images/products/peri-peri-spice.jpg",
       bestseller: false,
       discount: "18% OFF",
       description: "International peri-peri flavor on thick chips"
@@ -86,7 +86,7 @@ export default function Home() {
       name: "Sweet Jaggery",
       price: 160,
       originalPrice: 200,
-      emoji: "🍯",
+      image: "/images/products/sweet-jaggery.jpg",
       bestseller: true,
       discount: "20% OFF",
       description: "Naturally sweetened with organic jaggery"
@@ -96,7 +96,7 @@ export default function Home() {
       name: "Spicy Masala",
       price: 130,
       originalPrice: 160,
-      emoji: "🔥",
+      image: "/images/products/spicy-masala.jpg",
       bestseller: true,
       discount: "19% OFF",
       description: "Traditional Indian spices blend"
@@ -348,88 +348,89 @@ export default function Home() {
             </p>
           </div>
           
-         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-  {products.map((product, index) => (
-    <div 
-      key={index} 
-      className="group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
-    >
-      <div className="relative p-8 text-center">
-        {product.bestseller && (
-          <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-            🔥 Global Bestseller
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {products.map((product, index) => (
+              <div 
+                key={index} 
+                className="group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
+              >
+                <div className="relative p-8 text-center">
+                  {product.bestseller && (
+                    <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                      🔥 Global Bestseller
+                    </div>
+                  )}
+                  
+                  {/* Product Image */}
+                  <div className="mb-6 transform group-hover:scale-110 transition-all duration-500">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="w-32 h-32 object-cover rounded-2xl mx-auto shadow-lg"
+                      onError={(e) => {
+                        // Fallback to placeholder if image fails to load
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
+                    />
+                    {/* Fallback placeholder */}
+                    <div 
+                      className="w-32 h-32 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl mx-auto shadow-lg flex items-center justify-center text-4xl"
+                      style={{ display: 'none' }}
+                    >
+                      🍌
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
+                  <p className="text-gray-600 text-sm mb-4">{product.description}</p>
+                  
+                  <div className="flex items-center justify-center gap-2 mb-4">
+                    <span className="text-2xl font-bold text-green-600">₹{product.price}</span>
+                    <span className="text-lg text-gray-400 line-through">₹{product.originalPrice}</span>
+                    <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+                      {product.discount}
+                    </span>
+                  </div>
+                  
+                  <button
+                    onClick={() => addToCart(product)}
+                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-3 px-6 rounded-2xl transition-all duration-300 transform group-hover:scale-105 shadow-lg"
+                  >
+                    🛒 Add to Cart
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-        
-        <div className="text-7xl mb-6 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-          {product.emoji}
+
+          {/* Single View All Products Button */}
+          <div className="text-center">
+            <Link
+              href="/products"
+              className="group bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto w-fit"
+            >
+              View All Products
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+          </div>
         </div>
-        
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
-        <p className="text-gray-600 text-sm mb-4">{product.description}</p>
-        
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <span className="text-2xl font-bold text-green-600">{product.price}</span>
-          <span className="text-lg text-gray-400 line-through">{product.originalPrice}</span>
-          <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-2 py-1 rounded-full text-xs font-bold">
-            {product.discount}
-          </span>
-        </div>
-        
-        <button
-          onClick={() => addToCart(product)}
-          className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-3 px-6 rounded-2xl transition-all duration-300 transform group-hover:scale-105 shadow-lg"
-        >
-          🛒 Add to Cart
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
+      </section>
 
-{/* Only ONE View All Products below the grid */}
-<div className="text-center mt-6">
-  <Link
-    href="/products"
-    className="group bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto w-fit"
-  >
-    View All Products
-    <span className="group-hover:translate-x-1 transition-transform">→</span>
-  </Link>
-</div>
-
-
-
-        <div className="text-center mt-6">
-  <Link
-    href="/products"
-    className="group bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto w-fit"
-  >
-    View All Products
-    <span className="group-hover:translate-x-1 transition-transform">→</span>
-  </Link>
-</div>
-
-
-
-      </div>
-</section>
-
-{/* Global Testimonials */}
-<section className="py-20 bg-white">
-  <div className="container mx-auto px-6">
-    <div className="text-center mb-16">
-      <span className="inline-block bg-gradient-to-r from-blue-400 to-purple-400 text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
-        🌍 Global Reviews
-      </span>
-      <h2 className="text-5xl font-bold text-gray-800 mb-6">
-        Loved Across Continents
-      </h2>
-      <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-        Don't just take our word for it. Here's what our global family says about Chippyfy!
-      </p>
-    </div>
-
+      {/* Global Testimonials */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="inline-block bg-gradient-to-r from-blue-400 to-purple-400 text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
+              🌍 Global Reviews
+            </span>
+            <h2 className="text-5xl font-bold text-gray-800 mb-6">
+              Loved Across Continents
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Don't just take our word for it. Here's what our global family says about Chippyfy!
+            </p>
+          </div>
 
           <div className="relative max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-3xl p-8 shadow-2xl">
