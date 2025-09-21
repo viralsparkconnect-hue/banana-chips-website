@@ -60,46 +60,75 @@ export default function Home() {
     }
   ]
 
+  // Enhanced products data with all properties
   const products = [
     {
       id: 1,
-      name: "Classic Salted Thin",
+      name: "Classic Salted Banana Chips",
+      category: "classic",
       price: 120,
       originalPrice: 150,
-      image: "/images/products/classic-salted.jpg",
+      weight: 250,
+      pricePerKg: 480,
+      image: "/images/classic-salted.jpg",
+      description: "Crispy and lightly salted banana chips – the all-time favorite snack.",
+      rating: 4.5,
+      reviews: 240,
+      type: "thin",
+      fasting_friendly: false,
       bestseller: true,
-      discount: "20% OFF",
-      description: "Crispy thin-cut banana chips with sea salt"
+      discount: "20% OFF"
+    },
+    {
+      id: 5,
+      name: "Premium Coconut Oil Banana Chips",
+      category: "premium", 
+      price: 200,
+      originalPrice: 250,
+      weight: 250,
+      pricePerKg: 800,
+      image: "/images/premium-coconut.jpg",
+      description: "Made with premium bananas fried in cold-pressed coconut oil.",
+      rating: 4.8,
+      reviews: 210,
+      type: "vacuum_fried",
+      fasting_friendly: false,
+      bestseller: true,
+      discount: "20% OFF"
     },
     {
       id: 2,
-      name: "Peri-Peri Spice",
-      price: 140,
-      originalPrice: 170,
-      image: "/images/products/peri-peri-spice.jpg",
-      bestseller: false,
-      discount: "18% OFF",
-      description: "International peri-peri flavor on thick chips"
+      name: "Spicy Masala Banana Chips",
+      category: "spicy",
+      price: 150,
+      originalPrice: 180,
+      weight: 250,
+      pricePerKg: 600,
+      image: "/images/spicy-masala.jpg",
+      description: "Fiery masala blend for spice lovers.",
+      rating: 4.6,
+      reviews: 190,
+      type: "thick",
+      fasting_friendly: false,
+      bestseller: true,
+      discount: "17% OFF"
     },
     {
       id: 3,
-      name: "Sweet Jaggery",
-      price: 160,
-      originalPrice: 200,
-      image: "/images/products/sweet-jaggery.jpg",
-      bestseller: true,
-      discount: "20% OFF",
-      description: "Naturally sweetened with organic jaggery"
-    },
-    {
-      id: 4,
-      name: "Spicy Masala",
-      price: 130,
+      name: "Sweet Banana Chips",
+      category: "sweet",
+      price: 140,
       originalPrice: 160,
-      image: "/images/products/spicy-masala.jpg",
-      bestseller: true,
-      discount: "19% OFF",
-      description: "Traditional Indian spices blend"
+      weight: 250,
+      pricePerKg: 560,
+      image: "/images/sweet-jaggery.jpg",
+      description: "Caramelized sweetness with natural banana flavor.",
+      rating: 4.4,
+      reviews: 150,
+      type: "thin",
+      fasting_friendly: false,
+      bestseller: false,
+      discount: "13% OFF"
     }
   ]
 
@@ -332,7 +361,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Products Preview */}
+      {/* Enhanced Products Preview */}
       <section className="py-20 bg-gradient-to-br from-yellow-50 to-orange-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
@@ -348,54 +377,89 @@ export default function Home() {
             </p>
           </div>
           
+          {/* Enhanced Product Cards Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {products.map((product, index) => (
               <div 
                 key={index} 
-                className="group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
+                className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-102 overflow-hidden border border-gray-100"
               >
-                <div className="relative p-8 text-center">
-                  {product.bestseller && (
-                    <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                      🔥 Global Bestseller
-                    </div>
-                  )}
-                  
-                  {/* Product Image */}
-                  <div className="mb-6 transform group-hover:scale-110 transition-all duration-500">
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="w-32 h-32 object-cover rounded-2xl mx-auto shadow-lg"
-                      onError={(e) => {
-                        // Fallback to placeholder if image fails to load
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'block';
-                      }}
-                    />
-                    {/* Fallback placeholder */}
-                    <div 
-                      className="w-32 h-32 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl mx-auto shadow-lg flex items-center justify-center text-4xl"
-                      style={{ display: 'none' }}
-                    >
-                      🍌
+                <div className="p-4">
+                  {/* Badges and Image Container */}
+                  <div className="relative mb-4">
+                    {/* Bestseller Badge */}
+                    {product.bestseller && (
+                      <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold z-10 shadow-lg">
+                        🔥 Bestseller
+                      </div>
+                    )}
+                    
+                    {/* Enhanced Product Image */}
+                    <div className="rounded-xl overflow-hidden shadow-lg">
+                      <div className="relative w-full h-64">
+                        <img 
+                          src={product.image} 
+                          alt={product.name}
+                          className="w-full h-full rounded-xl transition-all duration-300 hover:scale-105 object-cover"
+                          onError={(e) => {
+                            // Enhanced fallback
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                        {/* Enhanced Fallback placeholder */}
+                        <div 
+                          className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl flex items-center justify-center text-6xl shadow-lg border-2 border-gray-100"
+                          style={{ display: 'none' }}
+                        >
+                          🍌
+                        </div>
+                      </div>
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{product.description}</p>
+                  {/* Product Info */}
+                  <h3 className="text-lg font-bold text-gray-800 mb-2 min-h-[2.5rem] flex items-center justify-center px-1">
+                    {product.name}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[2rem] px-1">
+                    {product.description}
+                  </p>
                   
-                  <div className="flex items-center justify-center gap-2 mb-4">
-                    <span className="text-2xl font-bold text-green-600">₹{product.price}</span>
-                    <span className="text-lg text-gray-400 line-through">₹{product.originalPrice}</span>
-                    <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+                  {/* Rating Stars */}
+                  <div className="flex items-center justify-center gap-1 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i} className={`text-sm ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}`}>
+                        ⭐
+                      </span>
+                    ))}
+                    <span className="text-gray-600 text-xs ml-1">({product.reviews})</span>
+                  </div>
+                  
+                  {/* Enhanced Price Section */}
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <span className="text-xl font-bold text-green-600">₹{product.price}</span>
+                    <span className="text-sm text-gray-400 line-through">₹{product.originalPrice}</span>
+                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-bold">
                       {product.discount}
                     </span>
                   </div>
                   
+                  {/* Weight and per-kg pricing */}
+                  <div className="flex items-center justify-center gap-3 mb-4 text-sm text-gray-600">
+                    <span className="bg-gray-100 px-2 py-1 rounded-full">
+                      📦 {product.weight}g
+                    </span>
+                    <span className="text-gray-500">•</span>
+                    <span className="font-medium">
+                      ₹{product.pricePerKg}/kg
+                    </span>
+                  </div>
+
+                  {/* Enhanced Action Button */}
                   <button
                     onClick={() => addToCart(product)}
-                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-3 px-6 rounded-2xl transition-all duration-300 transform group-hover:scale-105 shadow-lg"
+                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-2.5 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg text-sm"
                   >
                     🛒 Add to Cart
                   </button>
@@ -404,7 +468,7 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Single View All Products Button */}
+          {/* View All Products Button */}
           <div className="text-center">
             <Link
               href="/products"
