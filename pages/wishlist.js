@@ -5,10 +5,27 @@ import { useWishlist } from '@/context/WishlistContext'
 import { useCart } from '@/context/CartContext'
 
 export default function Wishlist() {
-  const { wishlist, removeFromWishlist, clearWishlist, wishlistCount } = useWishlist()
-  const { addToCart } = useCart()
+  const [mounted, setMounted] = useState(false)
   const [removingItem, setRemovingItem] = useState(null)
   const [showClearConfirm, setShowClearConfirm] = useState(false)
+  
+  // Safe hook usage with fallbacks
+  const wishlistContext = useWishlist()
+  const cartContext = useCart()
+  
+  const {
+    wishlist = [],
+    removeFromWishlist = () => {},
+    clearWishlist = () => {},
+    wishlistCount = 0
+  } = wishlistContext || {}
+  
+  const { addToCart = () => {} } = cartContext || {}
+
+  // Only render after client-side hydration
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleAddToCart = (item) => {
     addToCart(item)
@@ -27,6 +44,25 @@ export default function Wishlist() {
   const handleClearAll = () => {
     clearWishlist()
     setShowClearConfirm(false)
+  }
+
+  // Show loading state during SSR and hydration
+  if (!mounted) {
+    return (
+      <>
+        <Head>
+          <title>My Wishlist - Chippyfy</title>
+          <meta name="description" content="Your saved wishlist items" />
+        </Head>
+        
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading your wishlist...</p>
+          </div>
+        </div>
+      </>
+    )
   }
 
   if (wishlist.length === 0) {
