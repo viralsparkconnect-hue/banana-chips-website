@@ -170,15 +170,15 @@ export default function Products() {
     { id: 'newest', name: 'Newest First' }
   ]
 
-  // ✅ Enhanced Product Image Component
+  // ✅ Optimized Product Image Component for clean bowl-style product photos
   const ProductImage = ({ src, alt, className, fallbackEmoji = "🍌" }) => {
     const [imageLoaded, setImageLoaded] = useState(false)
     const [imageError, setImageError] = useState(false)
 
     return (
-      <div className={`relative ${className}`}>
+      <div className={`relative overflow-hidden ${className}`}>
         {!imageLoaded && !imageError && (
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-2xl flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse rounded-2xl flex items-center justify-center">
             <span className="text-4xl opacity-50">📸</span>
           </div>
         )}
@@ -186,20 +186,25 @@ export default function Products() {
         <img 
           src={src} 
           alt={alt}
-          className={`w-full h-full object-cover rounded-2xl transition-all duration-500 hover:scale-110 ${
+          className={`w-full h-full object-cover rounded-2xl transition-all duration-300 hover:scale-105 ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
+          style={{ 
+            display: imageError ? 'none' : 'block',
+            aspectRatio: '1/1',
+            objectPosition: 'center',
+            objectFit: 'cover'
+          }}
           onLoad={() => setImageLoaded(true)}
           onError={() => {
             setImageError(true)
             setImageLoaded(true)
           }}
-          style={{ display: imageError ? 'none' : 'block' }}
           loading="lazy"
         />
         
         {imageError && (
-          <div className="w-full h-full bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl flex items-center justify-center text-6xl shadow-lg">
+          <div className="w-full h-full bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl flex items-center justify-center text-6xl shadow-lg border-2 border-gray-100">
             {fallbackEmoji}
           </div>
         )}
@@ -241,11 +246,11 @@ export default function Products() {
           </div>
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="text-center">
-              <div className="mb-6">
+              <div className="mb-6 bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-2xl shadow-lg">
                 <ProductImage 
                   src={product.image} 
                   alt={product.name}
-                  className="w-80 h-80 mx-auto shadow-2xl"
+                  className="w-64 h-64 mx-auto"
                 />
               </div>
             </div>
@@ -366,7 +371,7 @@ export default function Products() {
         {/* 🟨 Enhanced Product Grid/List */}
         <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-8`}>
           {filteredProducts.map(product => (
-            <div key={product.id} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 overflow-hidden border border-gray-100">
+            <div key={product.id} className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-102 overflow-hidden border border-gray-100">
               <div className="relative p-6 text-center">
                 {/* Bestseller Badge */}
                 {product.rating >= 4.5 && (
@@ -385,17 +390,17 @@ export default function Products() {
                   ❤️
                 </button>
 
-                {/* Enhanced Product Image */}
-                <div className="mb-6 overflow-hidden rounded-2xl">
+                {/* Clean product image display for bowl-style photos */}
+                <div className="mb-6 bg-gradient-to-br from-gray-50 to-gray-100 p-2 rounded-2xl shadow-lg">
                   <ProductImage 
                     src={product.image} 
                     alt={product.name}
-                    className="w-48 h-48 mx-auto shadow-xl"
+                    className="w-40 h-40 mx-auto"
                   />
                 </div>
                 
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
+                <h3 className="text-xl font-bold text-gray-800 mb-2 min-h-[3rem] flex items-center justify-center">{product.name}</h3>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">{product.description}</p>
                 
                 {/* Rating */}
                 <div className="flex items-center justify-center gap-1 mb-4">
