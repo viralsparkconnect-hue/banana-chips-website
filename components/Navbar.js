@@ -13,21 +13,25 @@ const AccountDropdown = ({ isScrolled }) => {
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('.account-dropdown')) {
-        setIsOpen(false)
+    if (typeof window !== 'undefined') {
+      const handleClickOutside = (event) => {
+        if (!event.target.closest('.account-dropdown')) {
+          setIsOpen(false)
+        }
       }
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
     }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
   // Load user data
   useEffect(() => {
-    const userData = localStorage.getItem('chippyfy-user')
-    if (userData) {
-      setUser(JSON.parse(userData))
-      setIsLoggedIn(true)
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('chippyfy-user')
+      if (userData) {
+        setUser(JSON.parse(userData))
+        setIsLoggedIn(true)
+      }
     }
   }, [])
 
@@ -37,14 +41,18 @@ const AccountDropdown = ({ isScrolled }) => {
       email: 'john@example.com',
       avatar: null
     }
-    localStorage.setItem('chippyfy-user', JSON.stringify(mockUser))
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('chippyfy-user', JSON.stringify(mockUser))
+    }
     setUser(mockUser)
     setIsLoggedIn(true)
     setIsOpen(false)
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('chippyfy-user')
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('chippyfy-user')
+    }
     setUser(null)
     setIsLoggedIn(false)
     setIsOpen(false)
@@ -435,23 +443,29 @@ export default function Navbar() {
 
   // Handle scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+    if (typeof window !== 'undefined') {
+      const handleScroll = () => {
+        setIsScrolled(window.scrollY > 50)
+      }
+      window.addEventListener('scroll', handleScroll)
+      return () => window.removeEventListener('scroll', handleScroll)
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // Save language to localStorage whenever it changes
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('chippyfy_language')
-    if (savedLanguage) {
-      setSelectedLanguage(savedLanguage)
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('chippyfy_language')
+      if (savedLanguage) {
+        setSelectedLanguage(savedLanguage)
+      }
     }
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('chippyfy_language', selectedLanguage)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('chippyfy_language', selectedLanguage)
+    }
   }, [selectedLanguage])
 
   const NavLink = ({ href, children, hasDropdown = false }) => (
