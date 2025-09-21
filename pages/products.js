@@ -16,18 +16,138 @@ export default function Products() {
   // 🛒 use global cart
   const { cart, addToCart } = useCart()
 
-  // ✅ full product list with images instead of emojis
+  // ✅ Updated product list with real/sample images
   const products = [
-    { id: 1, name: "Classic Salted Banana Chips", category: "classic", price: 120, originalPrice: 150, image: "/images/products/classic-salted.jpg", description: "Crispy and lightly salted banana chips – the all-time favorite snack.", rating: 4.5, reviews: 240, type: "thin", fasting_friendly: false },
-    { id: 2, name: "Spicy Masala Banana Chips", category: "spicy", price: 150, originalPrice: 180, image: "/images/products/spicy-masala.jpg", description: "Fiery masala blend for spice lovers.", rating: 4.6, reviews: 190, type: "thick", fasting_friendly: false },
-    { id: 3, name: "Sweet Banana Chips", category: "sweet", price: 140, originalPrice: 160, image: "/images/products/sweet-jaggery.jpg", description: "Caramelized sweetness with natural banana flavor.", rating: 4.4, reviews: 150, type: "thin", fasting_friendly: false },
-    { id: 4, name: "Herbal Banana Chips", category: "healthy", price: 160, originalPrice: 190, image: "/images/products/herbal-chips.jpg", description: "Infused with herbs, a perfect guilt-free snack.", rating: 4.7, reviews: 120, type: "baked", fasting_friendly: false },
-    { id: 5, name: "Premium Coconut Oil Banana Chips", category: "premium", price: 200, originalPrice: 250, image: "/images/products/premium-coconut.jpg", description: "Made with premium bananas fried in cold-pressed coconut oil.", rating: 4.8, reviews: 210, type: "vacuum_fried", fasting_friendly: false },
-    { id: 6, name: "Fasting Special Banana Chips", category: "fasting", price: 170, originalPrice: 200, image: "/images/products/fasting-special.jpg", description: "Made with rock salt, perfect for fasting days.", rating: 4.6, reviews: 100, type: "thin", fasting_friendly: true },
-    { id: 7, name: "Combo Pack (Classic + Masala)", category: "combo", price: 250, originalPrice: 300, image: "/images/products/combo-pack.jpg", description: "A value pack with Classic and Masala chips together.", rating: 4.9, reviews: 180, type: "thick", fasting_friendly: false },
-    { id: 8, name: "Gift Pack Banana Chips", category: "gift", price: 350, originalPrice: 400, image: "/images/products/gift-pack.jpg", description: "Premium banana chips beautifully packed for gifting.", rating: 4.9, reviews: 90, type: "thick", fasting_friendly: false },
-    { id: 9, name: "Tangy Tomato Banana Chips", category: "spicy", price: 160, originalPrice: 190, image: "/images/products/tangy-tomato.jpg", description: "Unique tomato tanginess blended with crispy banana.", rating: 4.3, reviews: 75, type: "thin", fasting_friendly: false },
-    { id: 10, name: "Chocolate Banana Chips", category: "sweet", price: 180, originalPrice: 220, image: "/images/products/chocolate-chips.jpg", description: "Banana chips coated with rich chocolate layer.", rating: 4.5, reviews: 110, type: "baked", fasting_friendly: false },
+    { 
+      id: 1, 
+      name: "Classic Salted Banana Chips", 
+      category: "classic", 
+      price: 120, 
+      originalPrice: 150, 
+      image: "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&h=800&fit=crop&crop=center", 
+      description: "Crispy and lightly salted banana chips – the all-time favorite snack.", 
+      rating: 4.5, 
+      reviews: 240, 
+      type: "thin", 
+      fasting_friendly: false 
+    },
+    { 
+      id: 2, 
+      name: "Spicy Masala Banana Chips", 
+      category: "spicy", 
+      price: 150, 
+      originalPrice: 180, 
+      image: "https://images.unsplash.com/photo-1606787366850-de6ba128a6ac?w=800&h=800&fit=crop&crop=center", 
+      description: "Fiery masala blend for spice lovers.", 
+      rating: 4.6, 
+      reviews: 190, 
+      type: "thick", 
+      fasting_friendly: false 
+    },
+    { 
+      id: 3, 
+      name: "Sweet Banana Chips", 
+      category: "sweet", 
+      price: 140, 
+      originalPrice: 160, 
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop&crop=center", 
+      description: "Caramelized sweetness with natural banana flavor.", 
+      rating: 4.4, 
+      reviews: 150, 
+      type: "thin", 
+      fasting_friendly: false 
+    },
+    { 
+      id: 4, 
+      name: "Herbal Banana Chips", 
+      category: "healthy", 
+      price: 160, 
+      originalPrice: 190, 
+      image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=800&h=800&fit=crop&crop=center", 
+      description: "Infused with herbs, a perfect guilt-free snack.", 
+      rating: 4.7, 
+      reviews: 120, 
+      type: "baked", 
+      fasting_friendly: false 
+    },
+    { 
+      id: 5, 
+      name: "Premium Coconut Oil Banana Chips", 
+      category: "premium", 
+      price: 200, 
+      originalPrice: 250, 
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=800&fit=crop&crop=center", 
+      description: "Made with premium bananas fried in cold-pressed coconut oil.", 
+      rating: 4.8, 
+      reviews: 210, 
+      type: "vacuum_fried", 
+      fasting_friendly: false 
+    },
+    { 
+      id: 6, 
+      name: "Fasting Special Banana Chips", 
+      category: "fasting", 
+      price: 170, 
+      originalPrice: 200, 
+      image: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=800&h=800&fit=crop&crop=center", 
+      description: "Made with rock salt, perfect for fasting days.", 
+      rating: 4.6, 
+      reviews: 100, 
+      type: "thin", 
+      fasting_friendly: true 
+    },
+    { 
+      id: 7, 
+      name: "Combo Pack (Classic + Masala)", 
+      category: "combo", 
+      price: 250, 
+      originalPrice: 300, 
+      image: "https://images.unsplash.com/photo-1628191079085-ac1f66ac89b9?w=800&h=800&fit=crop&crop=center", 
+      description: "A value pack with Classic and Masala chips together.", 
+      rating: 4.9, 
+      reviews: 180, 
+      type: "thick", 
+      fasting_friendly: false 
+    },
+    { 
+      id: 8, 
+      name: "Gift Pack Banana Chips", 
+      category: "gift", 
+      price: 350, 
+      originalPrice: 400, 
+      image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=800&fit=crop&crop=center", 
+      description: "Premium banana chips beautifully packed for gifting.", 
+      rating: 4.9, 
+      reviews: 90, 
+      type: "thick", 
+      fasting_friendly: false 
+    },
+    { 
+      id: 9, 
+      name: "Tangy Tomato Banana Chips", 
+      category: "spicy", 
+      price: 160, 
+      originalPrice: 190, 
+      image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=800&h=800&fit=crop&crop=center", 
+      description: "Unique tomato tanginess blended with crispy banana.", 
+      rating: 4.3, 
+      reviews: 75, 
+      type: "thin", 
+      fasting_friendly: false 
+    },
+    { 
+      id: 10, 
+      name: "Chocolate Banana Chips", 
+      category: "sweet", 
+      price: 180, 
+      originalPrice: 220, 
+      image: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=800&h=800&fit=crop&crop=center", 
+      description: "Banana chips coated with rich chocolate layer.", 
+      rating: 4.5, 
+      reviews: 110, 
+      type: "baked", 
+      fasting_friendly: false 
+    },
   ]
 
   const categories = [
@@ -49,6 +169,43 @@ export default function Products() {
     { id: 'rating', name: 'Highest Rated' },
     { id: 'newest', name: 'Newest First' }
   ]
+
+  // ✅ Enhanced Product Image Component
+  const ProductImage = ({ src, alt, className, fallbackEmoji = "🍌" }) => {
+    const [imageLoaded, setImageLoaded] = useState(false)
+    const [imageError, setImageError] = useState(false)
+
+    return (
+      <div className={`relative ${className}`}>
+        {!imageLoaded && !imageError && (
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-2xl flex items-center justify-center">
+            <span className="text-4xl opacity-50">📸</span>
+          </div>
+        )}
+        
+        <img 
+          src={src} 
+          alt={alt}
+          className={`w-full h-full object-cover rounded-2xl transition-all duration-500 hover:scale-110 ${
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          onLoad={() => setImageLoaded(true)}
+          onError={() => {
+            setImageError(true)
+            setImageLoaded(true)
+          }}
+          style={{ display: imageError ? 'none' : 'block' }}
+          loading="lazy"
+        />
+        
+        {imageError && (
+          <div className="w-full h-full bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl flex items-center justify-center text-6xl shadow-lg">
+            {fallbackEmoji}
+          </div>
+        )}
+      </div>
+    )
+  }
 
   // ✅ filtering & sorting logic
   const filteredProducts = products
@@ -73,39 +230,28 @@ export default function Products() {
     )
   }
 
-  // ✅ Quick View Modal with images
+  // ✅ Enhanced Quick View Modal with better images
   const QuickViewModal = ({ product, onClose }) => (
     <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
         <div className="p-8">
           <div className="flex justify-between items-start mb-8">
             <h2 className="text-3xl font-bold text-gray-800">Quick View</h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-3xl font-bold">×</button>
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-3xl font-bold transition-colors">×</button>
           </div>
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="text-center">
               <div className="mb-6">
-                <img 
+                <ProductImage 
                   src={product.image} 
                   alt={product.name}
-                  className="w-64 h-64 object-cover rounded-3xl mx-auto shadow-2xl"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'block';
-                  }}
+                  className="w-80 h-80 mx-auto shadow-2xl"
                 />
-                {/* Fallback */}
-                <div 
-                  className="w-64 h-64 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-3xl mx-auto shadow-2xl flex items-center justify-center text-9xl"
-                  style={{ display: 'none' }}
-                >
-                  🍌
-                </div>
               </div>
             </div>
             <div>
               <h3 className="text-3xl font-bold text-gray-800 mb-4">{product.name}</h3>
-              <p className="text-gray-600 mb-6">{product.description}</p>
+              <p className="text-gray-600 mb-6 text-lg leading-relaxed">{product.description}</p>
               
               {/* Rating and Reviews */}
               <div className="flex items-center gap-2 mb-4">
@@ -130,7 +276,7 @@ export default function Products() {
               <div className="flex gap-4">
                 <button 
                   onClick={() => { addToCart(product); onClose() }} 
-                  className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105"
+                  className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   🛒 Add to Cart
                 </button>
@@ -204,27 +350,27 @@ export default function Products() {
           <div className="flex gap-2">
             <button 
               onClick={() => setViewMode('grid')} 
-              className={`p-3 rounded-xl ${viewMode === 'grid' ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-gray-600'}`}
+              className={`p-3 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-gray-600'}`}
             >
               ⊞ Grid
             </button>
             <button 
               onClick={() => setViewMode('list')} 
-              className={`p-3 rounded-xl ${viewMode === 'list' ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-gray-600'}`}
+              className={`p-3 rounded-xl transition-all ${viewMode === 'list' ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-gray-600'}`}
             >
               ☰ List
             </button>
           </div>
         </div>
 
-        {/* 🟨 Product Grid/List */}
+        {/* 🟨 Enhanced Product Grid/List */}
         <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-8`}>
           {filteredProducts.map(product => (
-            <div key={product.id} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 overflow-hidden">
+            <div key={product.id} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 overflow-hidden border border-gray-100">
               <div className="relative p-6 text-center">
                 {/* Bestseller Badge */}
                 {product.rating >= 4.5 && (
-                  <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                  <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold z-10">
                     🔥 Bestseller
                   </div>
                 )}
@@ -232,31 +378,20 @@ export default function Products() {
                 {/* Favorite Button */}
                 <button 
                   onClick={() => toggleFavorite(product.id)}
-                  className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 ${
-                    favorites.includes(product.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-400'
+                  className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 z-10 ${
+                    favorites.includes(product.id) ? 'text-red-500 bg-red-50' : 'text-gray-400 hover:text-red-400 hover:bg-gray-50'
                   }`}
                 >
                   ❤️
                 </button>
 
-                {/* Product Image */}
-                <div className="mb-6 transform group-hover:scale-110 transition-all duration-500">
-                  <img 
+                {/* Enhanced Product Image */}
+                <div className="mb-6 overflow-hidden rounded-2xl">
+                  <ProductImage 
                     src={product.image} 
                     alt={product.name}
-                    className="w-40 h-40 object-cover rounded-2xl mx-auto shadow-lg"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'block';
-                    }}
+                    className="w-48 h-48 mx-auto shadow-xl"
                   />
-                  {/* Fallback */}
-                  <div 
-                    className="w-40 h-40 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl mx-auto shadow-lg flex items-center justify-center text-7xl"
-                    style={{ display: 'none' }}
-                  >
-                    🍌
-                  </div>
                 </div>
                 
                 <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
