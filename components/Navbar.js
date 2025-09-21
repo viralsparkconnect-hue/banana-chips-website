@@ -1,21 +1,383 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
+import { useWishlist } from '@/context/WishlistContext'
+
+// Account Dropdown Component (integrated directly)
+const AccountDropdown = ({ isScrolled }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
+  const { wishlistCount } = useWishlist()
+  const { cart } = useCart()
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.account-dropdown')) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  // Load user data
+  useEffect(() => {
+    const userData = localStorage.getItem('chippyfy-user')
+    if (userData) {
+      setUser(JSON.parse(userData))
+      setIsLoggedIn(true)
+    }
+  }, [])
+
+  const handleLogin = () => {
+    const mockUser = {
+      name: 'John Doe',
+      email: 'john@example.com',
+      avatar: null
+    }
+    localStorage.setItem('chippyfy-user', JSON.stringify(mockUser))
+    setUser(mockUser)
+    setIsLoggedIn(true)
+    setIsOpen(false)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('chippyfy-user')
+    setUser(null)
+    setIsLoggedIn(false)
+    setIsOpen(false)
+  }
+
+  return (
+    <div className="relative account-dropdown">
+      {/* Account Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`relative p-2 rounded-full transition-all hover:scale-110 ${
+          isScrolled 
+            ? 'text-gray-600 hover:bg-gray-100' 
+            : 'text-white hover:bg-white hover:bg-opacity-20'
+        }`}
+      >
+        {isLoggedIn && user ? (
+          <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
+            <span className="text-white font-semibold text-sm">
+              {user.name?.charAt(0) || 'U'}
+            </span>
+          </div>
+        ) : (
+          <span className="text-xl">👤</span>
+        )}
+        
+        {/* Notification Badge */}
+        {(wishlistCount > 0 || cart.length > 0) && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
+            {wishlistCount + cart.length}
+          </span>
+        )}
+      </button>
+
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50">
+          {isLoggedIn ? (
+            <>
+              {/* User Info */}
+              <div className="px-4 py-3 border-b border-gray-100">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
+                    <span className="text-white font-semibold text-lg">
+                      {user.name?.charAt(0) || 'U'}
+                    </span>
+                  </div>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center space-x-4">
+              
+              {/* Search */}
+              <button
+                onClick={() => setShowSearch(!showSearch)}
+                className={`p-2 rounded-full transition-all hover:scale-110 ${
+                  isScrolled 
+                    ? 'text-gray-600 hover:bg-gray-100' 
+                    : 'text-white hover:bg-white hover:bg-opacity-20'
+                }`}
+              >
+                <span className="text-xl">🔍</span>
+              </button>
+
+              {/* Wishlist */}
+              <Link href="/wishlist" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
+                isScrolled 
+                  ? 'text-gray-600 hover:bg-gray-100' 
+                  : 'text-white hover:bg-white hover:bg-opacity-20'
+              }`}>
+                <span className="text-xl">❤️</span>
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-pulse">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* Cart - Connected to Context */}
+              <Link href="/cart" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
+                isScrolled 
+                  ? 'text-gray-600 hover:bg-gray-100' 
+                  : 'text-white hover:bg-white hover:bg-opacity-20'
+              }`}>
+                <span className="text-xl">🛒</span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-bounce">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* User Account - FIXED WITH WORKING DROPDOWN */}
+              <AccountDropdown isScrolled={isScrolled} />
+
+              {/* Order Now CTA */}
+              <Link href="/products" className={`hidden sm:block font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                isScrolled
+                  ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-500 hover:to-orange-500'
+                  : 'bg-white text-yellow-600 hover:bg-gray-100'
+              }`}>
+                {t.orderNow}
+              </Link>
+
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`lg:hidden p-2 rounded-full transition-all ${
+                  isScrolled 
+                    ? 'text-gray-600 hover:bg-gray-100' 
+                    : 'text-white hover:bg-white hover:bg-opacity-20'
+                }`}
+              >
+                {isOpen ? <span className="text-2xl">✕</span> : <span className="text-2xl">☰</span>}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        {showSearch && (
+          <div className="border-t border-white border-opacity-20 py-4">
+            <div className="container mx-auto px-6">
+              <div className="relative max-w-2xl mx-auto">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">🔍</span>
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder}
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-0 focus:outline-none focus:ring-4 focus:ring-yellow-200 text-gray-800"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="lg:hidden border-t border-white border-opacity-20">
+            <div className="container mx-auto px-6 py-4">
+              <div className="flex flex-col space-y-4">
+                <Link href="/" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  {t.home}
+                </Link>
+                <Link href="/about" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  {t.about}
+                </Link>
+                <Link href="/products" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  {t.products}
+                </Link>
+                <Link href="/contact" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  {t.contact}
+                </Link>
+                <Link href="/wishlist" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  ❤️ {t.wishlist} ({wishlistCount})
+                </Link>
+                <Link href="/cart" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  🛒 {t.cart} ({cartCount})
+                </Link>
+                <Link href="/products" className={`font-bold py-3 px-6 rounded-full text-center transition-all ${
+                  isScrolled
+                    ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black'
+                    : 'bg-white text-yellow-600'
+                }`} onClick={() => setIsOpen(false)}>
+                  {t.orderNow}
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      <style jsx>{`
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+      `}</style>
+    </>
+  )
+}>
+                  <div>
+                    <p className="font-semibold text-gray-900">{user.name}</p>
+                    <p className="text-sm text-gray-500">{user.email}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Menu Items */}
+              <div className="py-1">
+                <Link
+                  href="/profile"
+                  className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="text-xl mr-3">👤</span>
+                  <span className="text-gray-700">My Profile</span>
+                </Link>
+
+                <Link
+                  href="/orders"
+                  className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="text-xl mr-3">📦</span>
+                  <span className="text-gray-700">My Orders</span>
+                </Link>
+
+                <Link
+                  href="/wishlist"
+                  className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="text-xl mr-3">❤️</span>
+                  <span className="text-gray-700">Wishlist</span>
+                  {wishlistCount > 0 && (
+                    <span className="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
+
+                <Link
+                  href="/cart"
+                  className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="text-xl mr-3">🛒</span>
+                  <span className="text-gray-700">Cart</span>
+                  {cart.length > 0 && (
+                    <span className="ml-auto bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">
+                      {cart.length}
+                    </span>
+                  )}
+                </Link>
+
+                <Link
+                  href="/settings"
+                  className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="text-xl mr-3">⚙️</span>
+                  <span className="text-gray-700">Settings</span>
+                </Link>
+              </div>
+
+              {/* Logout */}
+              <div className="border-t border-gray-100 pt-1">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center w-full px-4 py-3 hover:bg-gray-50 transition-colors text-red-600"
+                >
+                  <span className="text-xl mr-3">🚪</span>
+                  <span>Logout</span>
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Login/Register Options */}
+              <div className="px-4 py-3 text-center border-b border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-1">Welcome to Chippyfy!</h3>
+                <p className="text-sm text-gray-500">Sign in to access your account</p>
+              </div>
+
+              <div className="py-2">
+                <button
+                  onClick={handleLogin}
+                  className="flex items-center w-full px-4 py-3 hover:bg-gray-50 transition-colors"
+                >
+                  <span className="text-xl mr-3">🔑</span>
+                  <span className="text-gray-700">Sign In</span>
+                </button>
+
+                <Link
+                  href="/register"
+                  className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="text-xl mr-3">✨</span>
+                  <span className="text-gray-700">Create Account</span>
+                </Link>
+
+                {/* Guest Options */}
+                <div className="border-t border-gray-100 mt-1 pt-1">
+                  <Link
+                    href="/wishlist"
+                    className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="text-xl mr-3">❤️</span>
+                    <span className="text-gray-700">View Wishlist</span>
+                    {wishlistCount > 0 && (
+                      <span className="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">
+                        {wishlistCount}
+                      </span>
+                    )}
+                  </Link>
+
+                  <Link
+                    href="/cart"
+                    className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="text-xl mr-3">🛒</span>
+                    <span className="text-gray-700">View Cart</span>
+                    {cart.length > 0 && (
+                      <span className="ml-auto bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">
+                        {cart.length}
+                      </span>
+                    )}
+                  </Link>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
-  const [favorites, setFavorites] = useState([])
   const [selectedCurrency, setSelectedCurrency] = useState('INR')
   const [selectedLanguage, setSelectedLanguage] = useState('EN')
 
-  // Connect to Cart Context
+  // Connect to Cart Context and Wishlist Context
   const { cart } = useCart()
+  const { wishlistCount } = useWishlist()
   
-  // Calculate cart count and favorites count
+  // Calculate cart count
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
-  const wishlistCount = favorites.length
 
   // Translation dictionary
   const translations = {
@@ -212,25 +574,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Load favorites and language from localStorage on mount
+  // Save language to localStorage whenever it changes
   useEffect(() => {
-    const savedFavorites = localStorage.getItem('chippyfy_favorites')
     const savedLanguage = localStorage.getItem('chippyfy_language')
-    
-    if (savedFavorites) {
-      setFavorites(JSON.parse(savedFavorites))
-    }
     if (savedLanguage) {
       setSelectedLanguage(savedLanguage)
     }
   }, [])
 
-  // Save favorites to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('chippyfy_favorites', JSON.stringify(favorites))
-  }, [favorites])
-
-  // Save language to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('chippyfy_language', selectedLanguage)
   }, [selectedLanguage])
@@ -395,142 +746,4 @@ export default function Navbar() {
               }`}>
                 {t.countries}
               </div>
-            </div>
-
-            {/* Right Side Actions */}
-            <div className="flex items-center space-x-4">
-              
-              {/* Search */}
-              <button
-                onClick={() => setShowSearch(!showSearch)}
-                className={`p-2 rounded-full transition-all hover:scale-110 ${
-                  isScrolled 
-                    ? 'text-gray-600 hover:bg-gray-100' 
-                    : 'text-white hover:bg-white hover:bg-opacity-20'
-                }`}
-              >
-                <span className="text-xl">🔍</span>
-              </button>
-
-              {/* Wishlist */}
-              <Link href="/wishlist" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
-                isScrolled 
-                  ? 'text-gray-600 hover:bg-gray-100' 
-                  : 'text-white hover:bg-white hover:bg-opacity-20'
-              }`}>
-                <span className="text-xl">❤️</span>
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-pulse">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-
-              {/* Cart - Connected to Context */}
-              <Link href="/cart" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
-                isScrolled 
-                  ? 'text-gray-600 hover:bg-gray-100' 
-                  : 'text-white hover:bg-white hover:bg-opacity-20'
-              }`}>
-                <span className="text-xl">🛒</span>
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-bounce">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-
-              {/* User Account */}
-              <button className={`p-2 rounded-full transition-all hover:scale-110 ${
-                isScrolled 
-                  ? 'text-gray-600 hover:bg-gray-100' 
-                  : 'text-white hover:bg-white hover:bg-opacity-20'
-              }`}>
-                <span className="text-xl">👤</span>
-              </button>
-
-              {/* Order Now CTA */}
-              <Link href="/products" className={`hidden sm:block font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg ${
-                isScrolled
-                  ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-500 hover:to-orange-500'
-                  : 'bg-white text-yellow-600 hover:bg-gray-100'
-              }`}>
-                {t.orderNow}
-              </Link>
-
-              {/* Mobile menu button */}
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={`lg:hidden p-2 rounded-full transition-all ${
-                  isScrolled 
-                    ? 'text-gray-600 hover:bg-gray-100' 
-                    : 'text-white hover:bg-white hover:bg-opacity-20'
-                }`}
-              >
-                {isOpen ? <span className="text-2xl">✕</span> : <span className="text-2xl">☰</span>}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Search Bar */}
-        {showSearch && (
-          <div className="border-t border-white border-opacity-20 py-4">
-            <div className="container mx-auto px-6">
-              <div className="relative max-w-2xl mx-auto">
-                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">🔍</span>
-                <input
-                  type="text"
-                  placeholder={t.searchPlaceholder}
-                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-0 focus:outline-none focus:ring-4 focus:ring-yellow-200 text-gray-800"
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="lg:hidden border-t border-white border-opacity-20">
-            <div className="container mx-auto px-6 py-4">
-              <div className="flex flex-col space-y-4">
-                <Link href="/" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  {t.home}
-                </Link>
-                <Link href="/about" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  {t.about}
-                </Link>
-                <Link href="/products" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  {t.products}
-                </Link>
-                <Link href="/contact" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  {t.contact}
-                </Link>
-                <Link href="/wishlist" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  ❤️ {t.wishlist} ({wishlistCount})
-                </Link>
-                <Link href="/cart" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  🛒 {t.cart} ({cartCount})
-                </Link>
-                <Link href="/products" className={`font-bold py-3 px-6 rounded-full text-center transition-all ${
-                  isScrolled
-                    ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black'
-                    : 'bg-white text-yellow-600'
-                }`} onClick={() => setIsOpen(false)}>
-                  {t.orderNow}
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      <style jsx>{`
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
-        }
-      `}</style>
-    </>
-  )
-}
+            </div
