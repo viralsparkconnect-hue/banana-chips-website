@@ -8,12 +8,30 @@ const AccountDropdown = ({ isScrolled }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
-  const { wishlistCount } = useWishlist()
-  const { cart } = useCart()
+  const [mounted, setMounted] = useState(false)
+  
+  // Safe context usage with fallbacks
+  let wishlistCount = 0
+  let cart = []
+  
+  try {
+    const wishlistContext = useWishlist()
+    const cartContext = useCart()
+    wishlistCount = wishlistContext?.wishlistCount || 0
+    cart = cartContext?.cart || []
+  } catch (error) {
+    // Context not available during SSR
+    console.warn('Context not available during SSR')
+  }
+
+  // Ensure component is mounted before accessing browser APIs
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (mounted && typeof window !== 'undefined') {
       const handleClickOutside = (event) => {
         if (!event.target.closest('.account-dropdown')) {
           setIsOpen(false)
@@ -22,18 +40,18 @@ const AccountDropdown = ({ isScrolled }) => {
       document.addEventListener('mousedown', handleClickOutside)
       return () => document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [])
+  }, [mounted])
 
   // Load user data
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (mounted && typeof window !== 'undefined') {
       const userData = localStorage.getItem('chippyfy-user')
       if (userData) {
         setUser(JSON.parse(userData))
         setIsLoggedIn(true)
       }
     }
-  }, [])
+  }, [mounted])
 
   const handleLogin = () => {
     const mockUser = {
@@ -41,7 +59,7 @@ const AccountDropdown = ({ isScrolled }) => {
       email: 'john@example.com',
       avatar: null
     }
-    if (typeof window !== 'undefined') {
+    if (mounted && typeof window !== 'undefined') {
       localStorage.setItem('chippyfy-user', JSON.stringify(mockUser))
     }
     setUser(mockUser)
@@ -50,7 +68,7 @@ const AccountDropdown = ({ isScrolled }) => {
   }
 
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
+    if (mounted && typeof window !== 'undefined') {
       localStorage.removeItem('chippyfy-user')
     }
     setUser(null)
@@ -247,13 +265,29 @@ export default function Navbar() {
   const [showSearch, setShowSearch] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState('INR')
   const [selectedLanguage, setSelectedLanguage] = useState('EN')
+  const [mounted, setMounted] = useState(false)
 
-  // Connect to Cart Context and Wishlist Context
-  const { cart } = useCart()
-  const { wishlistCount } = useWishlist()
+  // Safe context usage with fallbacks
+  let cart = []
+  let wishlistCount = 0
   
-  // Calculate cart count
-  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
+  try {
+    const cartContext = useCart()
+    const wishlistContext = useWishlist()
+    cart = cartContext?.cart || []
+    wishlistCount = wishlistContext?.wishlistCount || 0
+  } catch (error) {
+    // Context not available during SSR
+    console.warn('Context not available during SSR')
+  }
+  
+  // Calculate cart count safely
+  const cartCount = Array.isArray(cart) ? cart.reduce((sum, item) => sum + (item?.quantity || 0), 0) : 0
+
+  // Ensure component is mounted before accessing browser APIs
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Translation dictionary
   const translations = {
@@ -443,30 +477,30 @@ export default function Navbar() {
 
   // Handle scroll effect
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (mounted && typeof window !== 'undefined') {
       const handleScroll = () => {
         setIsScrolled(window.scrollY > 50)
       }
       window.addEventListener('scroll', handleScroll)
       return () => window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [mounted])
 
   // Save language to localStorage whenever it changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (mounted && typeof window !== 'undefined') {
       const savedLanguage = localStorage.getItem('chippyfy_language')
       if (savedLanguage) {
         setSelectedLanguage(savedLanguage)
       }
     }
-  }, [])
+  }, [mounted])
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (mounted && typeof window !== 'undefined') {
       localStorage.setItem('chippyfy_language', selectedLanguage)
     }
-  }, [selectedLanguage])
+  }, [selectedLanguage, mounted])
 
   const NavLink = ({ href, children, hasDropdown = false }) => (
     <Link 
