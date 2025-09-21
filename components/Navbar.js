@@ -1,14 +1,190 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useCart } from '@/context/CartContext'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
-  const [cartCount, setCartCount] = useState(3)
-  const [wishlistCount, setWishlistCount] = useState(2)
+  const [favorites, setFavorites] = useState([])
   const [selectedCurrency, setSelectedCurrency] = useState('INR')
   const [selectedLanguage, setSelectedLanguage] = useState('EN')
+
+  // Connect to Cart Context
+  const { cart } = useCart()
+  
+  // Calculate cart count and favorites count
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
+  const wishlistCount = favorites.length
+
+  // Translation dictionary
+  const translations = {
+    EN: {
+      phone: '+91 9876543210',
+      email: 'hello@chippyfy.com',
+      freeShipping: '🚚 Free shipping on orders above ₹299',
+      home: 'Home',
+      about: 'About',
+      products: 'Products',
+      contact: 'Contact',
+      countries: '🌍 50+ Countries',
+      orderNow: 'Order Now',
+      cart: 'Cart',
+      wishlist: 'Wishlist',
+      searchPlaceholder: 'Search for banana chips, flavors, combos...',
+      tagline: 'From India to World 🌍',
+      categories: 'Our Categories',
+      classicRange: 'Classic Range',
+      classicDesc: 'Traditional salted varieties',
+      spicyCollection: 'Spicy Collection',
+      spicyDesc: 'Peri-peri, masala & more',
+      sweetDelights: 'Sweet Delights',
+      sweetDesc: 'Jaggery & honey flavors',
+      fastingSpecial: 'Fasting Special',
+      fastingDesc: 'Religious compliance assured',
+      giftCombos: 'Gift Combos',
+      giftDesc: 'Perfect for celebrations',
+      viewAllProducts: 'View All Products →'
+    },
+    HI: {
+      phone: '+91 9876543210',
+      email: 'hello@chippyfy.com',
+      freeShipping: '🚚 ₹299 से अधिक के ऑर्डर पर मुफ्त शिपिंग',
+      home: 'होम',
+      about: 'हमारे बारे में',
+      products: 'उत्पाद',
+      contact: 'संपर्क',
+      countries: '🌍 50+ देश',
+      orderNow: 'अभी ऑर्डर करें',
+      cart: 'कार्ट',
+      wishlist: 'पसंदीदा',
+      searchPlaceholder: 'केला चिप्स, फ्लेवर, कॉम्बो खोजें...',
+      tagline: 'भारत से विश्व तक 🌍',
+      categories: 'हमारी श्रेणियां',
+      classicRange: 'क्लासिक रेंज',
+      classicDesc: 'पारंपरिक नमकीन किस्में',
+      spicyCollection: 'स्पाइसी कलेक्शन',
+      spicyDesc: 'पेरी-पेरी, मसाला और अन्य',
+      sweetDelights: 'मिठाई',
+      sweetDesc: 'गुड़ और शहद के फ्लेवर',
+      fastingSpecial: 'व्रत स्पेशल',
+      fastingDesc: 'धार्मिक अनुपालन सुनिश्चित',
+      giftCombos: 'गिफ्ट कॉम्बो',
+      giftDesc: 'उत्सवों के लिए परफेक्ट',
+      viewAllProducts: 'सभी उत्पाद देखें →'
+    },
+    MR: {
+      phone: '+91 9876543210',
+      email: 'hello@chippyfy.com',
+      freeShipping: '🚚 ₹299 पेक्षा जास्त ऑर्डरवर मोफत शिपिंग',
+      home: 'होम',
+      about: 'आमच्याबद्दल',
+      products: 'उत्पादने',
+      contact: 'संपर्क',
+      countries: '🌍 50+ देश',
+      orderNow: 'आता ऑर्डर करा',
+      cart: 'कार्ट',
+      wishlist: 'आवडते',
+      searchPlaceholder: 'केळी चिप्स, फ्लेवर, कॉम्बो शोधा...',
+      tagline: 'भारतापासून जगापर्यंत 🌍',
+      categories: 'आमच्या श्रेणी',
+      classicRange: 'क्लासिक रेंज',
+      classicDesc: 'पारंपारिक खारट प्रकार',
+      spicyCollection: 'स्पायसी कलेक्शन',
+      spicyDesc: 'पेरी-पेरी, मसाला आणि इतर',
+      sweetDelights: 'गोड पदार्थ',
+      sweetDesc: 'गूळ आणि मधाचे फ्लेवर',
+      fastingSpecial: 'उपवास स्पेशल',
+      fastingDesc: 'धार्मिक अनुपालन खात्रीशीर',
+      giftCombos: 'गिफ्ट कॉम्बो',
+      giftDesc: 'सणांसाठी योग्य',
+      viewAllProducts: 'सर्व उत्पादने पहा →'
+    },
+    ES: {
+      phone: '+91 9876543210',
+      email: 'hello@chippyfy.com',
+      freeShipping: '🚚 Envío gratis en pedidos superiores a ₹299',
+      home: 'Inicio',
+      about: 'Acerca de',
+      products: 'Productos',
+      contact: 'Contacto',
+      countries: '🌍 50+ Países',
+      orderNow: 'Pedir Ahora',
+      cart: 'Carrito',
+      wishlist: 'Favoritos',
+      searchPlaceholder: 'Buscar chips de plátano, sabores, combos...',
+      tagline: 'De India al Mundo 🌍',
+      categories: 'Nuestras Categorías',
+      classicRange: 'Gama Clásica',
+      classicDesc: 'Variedades saladas tradicionales',
+      spicyCollection: 'Colección Picante',
+      spicyDesc: 'Peri-peri, masala y más',
+      sweetDelights: 'Delicias Dulces',
+      sweetDesc: 'Sabores de jaggery y miel',
+      fastingSpecial: 'Especial Ayuno',
+      fastingDesc: 'Cumplimiento religioso asegurado',
+      giftCombos: 'Combos Regalo',
+      giftDesc: 'Perfecto para celebraciones',
+      viewAllProducts: 'Ver Todos los Productos →'
+    },
+    FR: {
+      phone: '+91 9876543210',
+      email: 'hello@chippyfy.com',
+      freeShipping: '🚚 Livraison gratuite sur les commandes supérieures à ₹299',
+      home: 'Accueil',
+      about: 'À Propos',
+      products: 'Produits',
+      contact: 'Contact',
+      countries: '🌍 50+ Pays',
+      orderNow: 'Commander Maintenant',
+      cart: 'Panier',
+      wishlist: 'Favoris',
+      searchPlaceholder: 'Rechercher des chips de banane, saveurs, combos...',
+      tagline: 'De l\'Inde au Monde 🌍',
+      categories: 'Nos Catégories',
+      classicRange: 'Gamme Classique',
+      classicDesc: 'Variétés salées traditionnelles',
+      spicyCollection: 'Collection Épicée',
+      spicyDesc: 'Peri-peri, masala et plus',
+      sweetDelights: 'Délices Sucrés',
+      sweetDesc: 'Saveurs de jaggery et miel',
+      fastingSpecial: 'Spécial Jeûne',
+      fastingDesc: 'Conformité religieuse assurée',
+      giftCombos: 'Combos Cadeaux',
+      giftDesc: 'Parfait pour les célébrations',
+      viewAllProducts: 'Voir Tous les Produits →'
+    },
+    DE: {
+      phone: '+91 9876543210',
+      email: 'hello@chippyfy.com',
+      freeShipping: '🚚 Kostenloser Versand bei Bestellungen über ₹299',
+      home: 'Startseite',
+      about: 'Über Uns',
+      products: 'Produkte',
+      contact: 'Kontakt',
+      countries: '🌍 50+ Länder',
+      orderNow: 'Jetzt Bestellen',
+      cart: 'Warenkorb',
+      wishlist: 'Wunschliste',
+      searchPlaceholder: 'Bananenchips, Geschmacksrichtungen, Combos suchen...',
+      tagline: 'Von Indien in die Welt 🌍',
+      categories: 'Unsere Kategorien',
+      classicRange: 'Klassische Linie',
+      classicDesc: 'Traditionelle gesalzene Sorten',
+      spicyCollection: 'Würzige Kollektion',
+      spicyDesc: 'Peri-peri, Masala und mehr',
+      sweetDelights: 'Süße Köstlichkeiten',
+      sweetDesc: 'Jaggery und Honig Aromen',
+      fastingSpecial: 'Fasten Spezial',
+      fastingDesc: 'Religiöse Konformität gesichert',
+      giftCombos: 'Geschenk Kombos',
+      giftDesc: 'Perfekt für Feiern',
+      viewAllProducts: 'Alle Produkte Anzeigen →'
+    }
+  }
+
+  // Get current translation
+  const t = translations[selectedLanguage] || translations.EN
 
   const currencies = [
     { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
@@ -35,6 +211,29 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Load favorites and language from localStorage on mount
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('chippyfy_favorites')
+    const savedLanguage = localStorage.getItem('chippyfy_language')
+    
+    if (savedFavorites) {
+      setFavorites(JSON.parse(savedFavorites))
+    }
+    if (savedLanguage) {
+      setSelectedLanguage(savedLanguage)
+    }
+  }, [])
+
+  // Save favorites to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('chippyfy_favorites', JSON.stringify(favorites))
+  }, [favorites])
+
+  // Save language to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('chippyfy_language', selectedLanguage)
+  }, [selectedLanguage])
 
   const NavLink = ({ href, children, hasDropdown = false }) => (
     <Link 
@@ -69,16 +268,16 @@ export default function Navbar() {
             <div className="flex items-center space-x-6">
               <div className="flex items-center gap-2">
                 <span className="text-lg">📞</span>
-                <span>+91 9876543210</span>
+                <span>{t.phone}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-lg">✉️</span>
-                <span>hello@chippyfy.com</span>
+                <span>{t.email}</span>
               </div>
             </div>
             
             <div className="flex items-center space-x-4">
-              <span className="hidden sm:block">🚚 Free shipping on orders above ₹299</span>
+              <span className="hidden sm:block">{t.freeShipping}</span>
               
               {/* Language Selector */}
               <div className="relative group">
@@ -91,7 +290,9 @@ export default function Navbar() {
                     <button
                       key={lang.code}
                       onClick={() => setSelectedLanguage(lang.code)}
-                      className="w-full px-4 py-2 hover:bg-yellow-50 flex items-center gap-2 text-sm"
+                      className={`w-full px-4 py-2 hover:bg-yellow-50 flex items-center gap-2 text-sm ${
+                        selectedLanguage === lang.code ? 'bg-yellow-100 font-semibold' : ''
+                      }`}
                     >
                       <span>{lang.flag}</span>
                       <span>{lang.name}</span>
@@ -111,7 +312,9 @@ export default function Navbar() {
                     <button
                       key={currency.code}
                       onClick={() => setSelectedCurrency(currency.code)}
-                      className="w-full px-4 py-2 hover:bg-yellow-50 flex items-center justify-between text-sm"
+                      className={`w-full px-4 py-2 hover:bg-yellow-50 flex items-center justify-between text-sm ${
+                        selectedCurrency === currency.code ? 'bg-yellow-100 font-semibold' : ''
+                      }`}
                     >
                       <span>{currency.code}</span>
                       <span>{currency.symbol}</span>
@@ -148,41 +351,41 @@ export default function Navbar() {
                 <div className={`text-xs font-medium ${
                   isScrolled ? 'text-gray-600' : 'text-white opacity-80'
                 }`}>
-                  From India to World 🌍
+                  {t.tagline}
                 </div>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
-              <NavLink href="/">Home</NavLink>
-              <NavLink href="/about">About</NavLink>
+              <NavLink href="/">{t.home}</NavLink>
+              <NavLink href="/about">{t.about}</NavLink>
               
               {/* Products Dropdown */}
               <div className="relative group">
                 <NavLink href="/products" hasDropdown>
-                  Products
+                  {t.products}
                 </NavLink>
                 <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl py-4 min-w-[280px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                   <div className="px-6 py-2 border-b border-gray-100">
-                    <h3 className="font-bold text-gray-800 text-lg">Our Categories</h3>
+                    <h3 className="font-bold text-gray-800 text-lg">{t.categories}</h3>
                   </div>
                   <div className="py-2">
-                    <DropdownItem icon="🥨" title="Classic Range" description="Traditional salted varieties" />
-                    <DropdownItem icon="🌶️" title="Spicy Collection" description="Peri-peri, masala & more" />
-                    <DropdownItem icon="🍯" title="Sweet Delights" description="Jaggery & honey flavors" />
-                    <DropdownItem icon="🙏" title="Fasting Special" description="Religious compliance assured" />
-                    <DropdownItem icon="🎁" title="Gift Combos" description="Perfect for celebrations" />
+                    <DropdownItem icon="🥨" title={t.classicRange} description={t.classicDesc} />
+                    <DropdownItem icon="🌶️" title={t.spicyCollection} description={t.spicyDesc} />
+                    <DropdownItem icon="🍯" title={t.sweetDelights} description={t.sweetDesc} />
+                    <DropdownItem icon="🙏" title={t.fastingSpecial} description={t.fastingDesc} />
+                    <DropdownItem icon="🎁" title={t.giftCombos} description={t.giftDesc} />
                   </div>
                   <div className="px-6 py-3 border-t border-gray-100">
                     <Link href="/products" className="text-yellow-600 font-semibold hover:text-yellow-700 text-sm">
-                      View All Products →
+                      {t.viewAllProducts}
                     </Link>
                   </div>
                 </div>
               </div>
 
-              <NavLink href="/contact">Contact</NavLink>
+              <NavLink href="/contact">{t.contact}</NavLink>
               
               {/* Global Shipping Badge */}
               <div className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -190,7 +393,7 @@ export default function Navbar() {
                   ? 'bg-green-100 text-green-800' 
                   : 'bg-white bg-opacity-20 text-white'
               }`}>
-                🌍 50+ Countries
+                {t.countries}
               </div>
             </div>
 
@@ -210,7 +413,7 @@ export default function Navbar() {
               </button>
 
               {/* Wishlist */}
-              <button className={`relative p-2 rounded-full transition-all hover:scale-110 ${
+              <Link href="/wishlist" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
                 isScrolled 
                   ? 'text-gray-600 hover:bg-gray-100' 
                   : 'text-white hover:bg-white hover:bg-opacity-20'
@@ -221,9 +424,9 @@ export default function Navbar() {
                     {wishlistCount}
                   </span>
                 )}
-              </button>
+              </Link>
 
-              {/* Cart */}
+              {/* Cart - Connected to Context */}
               <Link href="/cart" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
                 isScrolled 
                   ? 'text-gray-600 hover:bg-gray-100' 
@@ -252,7 +455,7 @@ export default function Navbar() {
                   ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-500 hover:to-orange-500'
                   : 'bg-white text-yellow-600 hover:bg-gray-100'
               }`}>
-                Order Now
+                {t.orderNow}
               </Link>
 
               {/* Mobile menu button */}
@@ -278,7 +481,7 @@ export default function Navbar() {
                 <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">🔍</span>
                 <input
                   type="text"
-                  placeholder="Search for banana chips, flavors, combos..."
+                  placeholder={t.searchPlaceholder}
                   className="w-full pl-12 pr-4 py-3 rounded-2xl border-0 focus:outline-none focus:ring-4 focus:ring-yellow-200 text-gray-800"
                 />
               </div>
@@ -292,26 +495,29 @@ export default function Navbar() {
             <div className="container mx-auto px-6 py-4">
               <div className="flex flex-col space-y-4">
                 <Link href="/" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  Home
+                  {t.home}
                 </Link>
                 <Link href="/about" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  About
+                  {t.about}
                 </Link>
                 <Link href="/products" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  Products
+                  {t.products}
                 </Link>
                 <Link href="/contact" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  Contact
+                  {t.contact}
+                </Link>
+                <Link href="/wishlist" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  ❤️ {t.wishlist} ({wishlistCount})
                 </Link>
                 <Link href="/cart" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  🛒 Cart ({cartCount})
+                  🛒 {t.cart} ({cartCount})
                 </Link>
                 <Link href="/products" className={`font-bold py-3 px-6 rounded-full text-center transition-all ${
                   isScrolled
                     ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black'
                     : 'bg-white text-yellow-600'
                 }`} onClick={() => setIsOpen(false)}>
-                  Order Now
+                  {t.orderNow}
                 </Link>
               </div>
             </div>
