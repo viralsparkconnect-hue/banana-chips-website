@@ -16,18 +16,18 @@ export default function Products() {
   // 🛒 use global cart
   const { cart, addToCart } = useCart()
 
-  // ✅ full product list with emojis
+  // ✅ full product list with images instead of emojis
   const products = [
-    { id: 1, name: "Classic Salted Banana Chips", category: "classic", price: 120, originalPrice: 150, emoji: "🍌", description: "Crispy and lightly salted banana chips – the all-time favorite snack.", rating: 4.5, reviews: 240, type: "thin", fasting_friendly: false },
-    { id: 2, name: "Spicy Masala Banana Chips", category: "spicy", price: 150, originalPrice: 180, emoji: "🌶️", description: "Fiery masala blend for spice lovers.", rating: 4.6, reviews: 190, type: "thick", fasting_friendly: false },
-    { id: 3, name: "Sweet Banana Chips", category: "sweet", price: 140, originalPrice: 160, emoji: "🍯", description: "Caramelized sweetness with natural banana flavor.", rating: 4.4, reviews: 150, type: "thin", fasting_friendly: false },
-    { id: 4, name: "Herbal Banana Chips", category: "healthy", price: 160, originalPrice: 190, emoji: "🌿", description: "Infused with herbs, a perfect guilt-free snack.", rating: 4.7, reviews: 120, type: "baked", fasting_friendly: false },
-    { id: 5, name: "Premium Coconut Oil Banana Chips", category: "premium", price: 200, originalPrice: 250, emoji: "✨", description: "Made with premium bananas fried in cold-pressed coconut oil.", rating: 4.8, reviews: 210, type: "vacuum_fried", fasting_friendly: false },
-    { id: 6, name: "Fasting Special Banana Chips", category: "fasting", price: 170, originalPrice: 200, emoji: "🙏", description: "Made with rock salt, perfect for fasting days.", rating: 4.6, reviews: 100, type: "thin", fasting_friendly: true },
-    { id: 7, name: "Combo Pack (Classic + Masala)", category: "combo", price: 250, originalPrice: 300, emoji: "🎁", description: "A value pack with Classic and Masala chips together.", rating: 4.9, reviews: 180, type: "thick", fasting_friendly: false },
-    { id: 8, name: "Gift Pack Banana Chips", category: "gift", price: 350, originalPrice: 400, emoji: "🎀", description: "Premium banana chips beautifully packed for gifting.", rating: 4.9, reviews: 90, type: "thick", fasting_friendly: false },
-    { id: 9, name: "Tangy Tomato Banana Chips", category: "spicy", price: 160, originalPrice: 190, emoji: "🍅", description: "Unique tomato tanginess blended with crispy banana.", rating: 4.3, reviews: 75, type: "thin", fasting_friendly: false },
-    { id: 10, name: "Chocolate Banana Chips", category: "sweet", price: 180, originalPrice: 220, emoji: "🍫", description: "Banana chips coated with rich chocolate layer.", rating: 4.5, reviews: 110, type: "baked", fasting_friendly: false },
+    { id: 1, name: "Classic Salted Banana Chips", category: "classic", price: 120, originalPrice: 150, image: "/images/products/classic-salted.jpg", description: "Crispy and lightly salted banana chips – the all-time favorite snack.", rating: 4.5, reviews: 240, type: "thin", fasting_friendly: false },
+    { id: 2, name: "Spicy Masala Banana Chips", category: "spicy", price: 150, originalPrice: 180, image: "/images/products/spicy-masala.jpg", description: "Fiery masala blend for spice lovers.", rating: 4.6, reviews: 190, type: "thick", fasting_friendly: false },
+    { id: 3, name: "Sweet Banana Chips", category: "sweet", price: 140, originalPrice: 160, image: "/images/products/sweet-jaggery.jpg", description: "Caramelized sweetness with natural banana flavor.", rating: 4.4, reviews: 150, type: "thin", fasting_friendly: false },
+    { id: 4, name: "Herbal Banana Chips", category: "healthy", price: 160, originalPrice: 190, image: "/images/products/herbal-chips.jpg", description: "Infused with herbs, a perfect guilt-free snack.", rating: 4.7, reviews: 120, type: "baked", fasting_friendly: false },
+    { id: 5, name: "Premium Coconut Oil Banana Chips", category: "premium", price: 200, originalPrice: 250, image: "/images/products/premium-coconut.jpg", description: "Made with premium bananas fried in cold-pressed coconut oil.", rating: 4.8, reviews: 210, type: "vacuum_fried", fasting_friendly: false },
+    { id: 6, name: "Fasting Special Banana Chips", category: "fasting", price: 170, originalPrice: 200, image: "/images/products/fasting-special.jpg", description: "Made with rock salt, perfect for fasting days.", rating: 4.6, reviews: 100, type: "thin", fasting_friendly: true },
+    { id: 7, name: "Combo Pack (Classic + Masala)", category: "combo", price: 250, originalPrice: 300, image: "/images/products/combo-pack.jpg", description: "A value pack with Classic and Masala chips together.", rating: 4.9, reviews: 180, type: "thick", fasting_friendly: false },
+    { id: 8, name: "Gift Pack Banana Chips", category: "gift", price: 350, originalPrice: 400, image: "/images/products/gift-pack.jpg", description: "Premium banana chips beautifully packed for gifting.", rating: 4.9, reviews: 90, type: "thick", fasting_friendly: false },
+    { id: 9, name: "Tangy Tomato Banana Chips", category: "spicy", price: 160, originalPrice: 190, image: "/images/products/tangy-tomato.jpg", description: "Unique tomato tanginess blended with crispy banana.", rating: 4.3, reviews: 75, type: "thin", fasting_friendly: false },
+    { id: 10, name: "Chocolate Banana Chips", category: "sweet", price: 180, originalPrice: 220, image: "/images/products/chocolate-chips.jpg", description: "Banana chips coated with rich chocolate layer.", rating: 4.5, reviews: 110, type: "baked", fasting_friendly: false },
   ]
 
   const categories = [
@@ -73,7 +73,7 @@ export default function Products() {
     )
   }
 
-  // ✅ Quick View Modal
+  // ✅ Quick View Modal with images
   const QuickViewModal = ({ product, onClose }) => (
     <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
@@ -83,19 +83,67 @@ export default function Products() {
             <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-3xl font-bold">×</button>
           </div>
           <div className="grid lg:grid-cols-2 gap-8">
-            <div className="text-center"><div className="text-9xl mb-6">{product.emoji}</div></div>
+            <div className="text-center">
+              <div className="mb-6">
+                <img 
+                  src={product.image} 
+                  alt={product.name}
+                  className="w-64 h-64 object-cover rounded-3xl mx-auto shadow-2xl"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'block';
+                  }}
+                />
+                {/* Fallback */}
+                <div 
+                  className="w-64 h-64 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-3xl mx-auto shadow-2xl flex items-center justify-center text-9xl"
+                  style={{ display: 'none' }}
+                >
+                  🍌
+                </div>
+              </div>
+            </div>
             <div>
               <h3 className="text-3xl font-bold text-gray-800 mb-4">{product.name}</h3>
               <p className="text-gray-600 mb-6">{product.description}</p>
+              
+              {/* Rating and Reviews */}
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className={`text-xl ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}`}>
+                      ⭐
+                    </span>
+                  ))}
+                </div>
+                <span className="text-gray-600">({product.reviews} reviews)</span>
+              </div>
+              
               <div className="flex items-center gap-4 mb-8">
                 <span className="text-4xl font-bold text-green-600">₹{product.price}</span>
                 <span className="text-2xl text-gray-400 line-through">₹{product.originalPrice}</span>
+                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">
+                  {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                </span>
               </div>
+              
               <div className="flex gap-4">
-                <button onClick={() => { addToCart(product); onClose() }} className="flex-1 bg-yellow-400 text-black font-bold py-4 px-8 rounded-2xl">
+                <button 
+                  onClick={() => { addToCart(product); onClose() }} 
+                  className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105"
+                >
                   🛒 Add to Cart
                 </button>
-                <button onClick={() => toggleFavorite(product.id)} className={`p-4 rounded-2xl border-2 ${favorites.includes(product.id) ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 text-gray-600'}`}>❤️</button>
+                <button 
+                  onClick={() => toggleFavorite(product.id)} 
+                  className={`p-4 rounded-2xl border-2 transition-all duration-300 ${
+                    favorites.includes(product.id) 
+                      ? 'border-red-500 bg-red-50 text-red-500' 
+                      : 'border-gray-300 text-gray-600 hover:border-red-300'
+                  }`}
+                >
+                  ❤️
+                </button>
               </div>
             </div>
           </div>
@@ -108,51 +156,172 @@ export default function Products() {
     <>
       <Navbar />
 
+      {/* Page Header */}
+      <div className="bg-gradient-to-r from-yellow-400 to-orange-400 py-16">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-5xl font-bold text-black mb-4">Our Products</h1>
+          <p className="text-xl text-black opacity-80">Discover authentic banana chips from India to the world</p>
+        </div>
+      </div>
+
       {/* 🔍 Search & Filters */}
       <div className="p-6 max-w-6xl mx-auto">
-        <input type="text" placeholder="Search products..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full p-3 border rounded-2xl mb-6" />
+        <div className="mb-8">
+          <input 
+            type="text" 
+            placeholder="Search products..." 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            className="w-full p-4 border-2 border-gray-200 rounded-2xl text-lg focus:border-yellow-400 focus:outline-none transition-all"
+          />
+        </div>
 
         <div className="flex gap-3 flex-wrap mb-6">
           {categories.map(cat => (
-            <button key={cat.id} onClick={() => setSelectedCategory(cat.id)} className={`px-4 py-2 rounded-full text-sm font-bold ${selectedCategory === cat.id ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-gray-600'}`}>
+            <button 
+              key={cat.id} 
+              onClick={() => setSelectedCategory(cat.id)} 
+              className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+                selectedCategory === cat.id 
+                  ? 'bg-yellow-400 text-black shadow-lg transform scale-105' 
+                  : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+              }`}
+            >
               {cat.icon} {cat.name} ({cat.count})
             </button>
           ))}
         </div>
 
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="p-2 border rounded-2xl mb-6">
-          {sortOptions.map(opt => <option key={opt.id} value={opt.id}>{opt.name}</option>)}
-        </select>
+        <div className="flex justify-between items-center mb-8">
+          <select 
+            value={sortBy} 
+            onChange={(e) => setSortBy(e.target.value)} 
+            className="p-3 border-2 border-gray-200 rounded-2xl focus:border-yellow-400 focus:outline-none"
+          >
+            {sortOptions.map(opt => <option key={opt.id} value={opt.id}>{opt.name}</option>)}
+          </select>
+          
+          <div className="flex gap-2">
+            <button 
+              onClick={() => setViewMode('grid')} 
+              className={`p-3 rounded-xl ${viewMode === 'grid' ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-gray-600'}`}
+            >
+              ⊞ Grid
+            </button>
+            <button 
+              onClick={() => setViewMode('list')} 
+              className={`p-3 rounded-xl ${viewMode === 'list' ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-gray-600'}`}
+            >
+              ☰ List
+            </button>
+          </div>
+        </div>
 
-        {/* 🟨 Product Grid */}
-        <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-6`}>
+        {/* 🟨 Product Grid/List */}
+        <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-8`}>
           {filteredProducts.map(product => (
-            <div key={product.id} className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center">
-              <div className="text-7xl mb-4">{product.emoji}</div>
-              <h3 className="text-xl font-bold mb-2">{product.name}</h3>
-              <p className="text-gray-500 mb-2">{product.description}</p>
-              <div className="flex gap-3 items-center mb-4">
-                <span className="text-lg font-bold text-green-600">₹{product.price}</span>
-                <span className="text-gray-400 line-through">₹{product.originalPrice}</span>
-              </div>
-              <div className="flex gap-3">
-                <button onClick={() => addToCart(product)} className="bg-yellow-400 text-black font-bold px-4 py-2 rounded-xl">🛒 Add</button>
-                <button onClick={() => setShowQuickView(product)} className="bg-gray-200 text-gray-700 px-4 py-2 rounded-xl">👁 Quick View</button>
+            <div key={product.id} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 overflow-hidden">
+              <div className="relative p-6 text-center">
+                {/* Bestseller Badge */}
+                {product.rating >= 4.5 && (
+                  <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                    🔥 Bestseller
+                  </div>
+                )}
+                
+                {/* Favorite Button */}
+                <button 
+                  onClick={() => toggleFavorite(product.id)}
+                  className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 ${
+                    favorites.includes(product.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-400'
+                  }`}
+                >
+                  ❤️
+                </button>
+
+                {/* Product Image */}
+                <div className="mb-6 transform group-hover:scale-110 transition-all duration-500">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-40 h-40 object-cover rounded-2xl mx-auto shadow-lg"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'block';
+                    }}
+                  />
+                  {/* Fallback */}
+                  <div 
+                    className="w-40 h-40 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl mx-auto shadow-lg flex items-center justify-center text-7xl"
+                    style={{ display: 'none' }}
+                  >
+                    🍌
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
+                
+                {/* Rating */}
+                <div className="flex items-center justify-center gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className={`${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}`}>
+                      ⭐
+                    </span>
+                  ))}
+                  <span className="text-gray-600 text-sm ml-2">({product.reviews})</span>
+                </div>
+                
+                {/* Price */}
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <span className="text-2xl font-bold text-green-600">₹{product.price}</span>
+                  <span className="text-lg text-gray-400 line-through">₹{product.originalPrice}</span>
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-bold">
+                    {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                  </span>
+                </div>
+                
+                {/* Buttons */}
+                <div className="flex gap-3">
+                  <button 
+                    onClick={() => addToCart(product)} 
+                    className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-3 px-4 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    🛒 Add to Cart
+                  </button>
+                  <button 
+                    onClick={() => setShowQuickView(product)} 
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-2xl transition-all duration-300"
+                  >
+                    👁 Quick View
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
+
+        {/* No Results */}
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-16">
+            <div className="text-8xl mb-4">🔍</div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">No products found</h3>
+            <p className="text-gray-600">Try adjusting your search or filters</p>
+          </div>
+        )}
       </div>
 
       {/* 🛒 Floating Cart Badge */}
       {cart.length > 0 && (
         <div className="fixed bottom-6 right-6 z-40">
-          <div className="bg-yellow-400 text-black p-4 rounded-2xl shadow-2xl flex items-center gap-3">
+          <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black p-4 rounded-2xl shadow-2xl flex items-center gap-3 hover:shadow-3xl transition-all duration-300 cursor-pointer">
             <span className="text-2xl">🛒</span>
-            <span className="font-bold">{cart.length} items</span>
-            <span className="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm font-bold">
-              ₹{cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}
-            </span>
+            <div>
+              <div className="font-bold">{cart.length} items</div>
+              <div className="text-sm opacity-80">
+                ₹{cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}
+              </div>
+            </div>
           </div>
         </div>
       )}
