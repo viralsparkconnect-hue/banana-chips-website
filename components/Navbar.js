@@ -92,138 +92,6 @@ const AccountDropdown = ({ isScrolled }) => {
                       {user.name?.charAt(0) || 'U'}
                     </span>
                   </div>
-
-            {/* Right Side Actions */}
-            <div className="flex items-center space-x-4">
-              
-              {/* Search */}
-              <button
-                onClick={() => setShowSearch(!showSearch)}
-                className={`p-2 rounded-full transition-all hover:scale-110 ${
-                  isScrolled 
-                    ? 'text-gray-600 hover:bg-gray-100' 
-                    : 'text-white hover:bg-white hover:bg-opacity-20'
-                }`}
-              >
-                <span className="text-xl">🔍</span>
-              </button>
-
-              {/* Wishlist */}
-              <Link href="/wishlist" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
-                isScrolled 
-                  ? 'text-gray-600 hover:bg-gray-100' 
-                  : 'text-white hover:bg-white hover:bg-opacity-20'
-              }`}>
-                <span className="text-xl">❤️</span>
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-pulse">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-
-              {/* Cart - Connected to Context */}
-              <Link href="/cart" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
-                isScrolled 
-                  ? 'text-gray-600 hover:bg-gray-100' 
-                  : 'text-white hover:bg-white hover:bg-opacity-20'
-              }`}>
-                <span className="text-xl">🛒</span>
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-bounce">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-
-              {/* User Account - FIXED WITH WORKING DROPDOWN */}
-              <AccountDropdown isScrolled={isScrolled} />
-
-              {/* Order Now CTA */}
-              <Link href="/products" className={`hidden sm:block font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg ${
-                isScrolled
-                  ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-500 hover:to-orange-500'
-                  : 'bg-white text-yellow-600 hover:bg-gray-100'
-              }`}>
-                {t.orderNow}
-              </Link>
-
-              {/* Mobile menu button */}
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={`lg:hidden p-2 rounded-full transition-all ${
-                  isScrolled 
-                    ? 'text-gray-600 hover:bg-gray-100' 
-                    : 'text-white hover:bg-white hover:bg-opacity-20'
-                }`}
-              >
-                {isOpen ? <span className="text-2xl">✕</span> : <span className="text-2xl">☰</span>}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Search Bar */}
-        {showSearch && (
-          <div className="border-t border-white border-opacity-20 py-4">
-            <div className="container mx-auto px-6">
-              <div className="relative max-w-2xl mx-auto">
-                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">🔍</span>
-                <input
-                  type="text"
-                  placeholder={t.searchPlaceholder}
-                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-0 focus:outline-none focus:ring-4 focus:ring-yellow-200 text-gray-800"
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="lg:hidden border-t border-white border-opacity-20">
-            <div className="container mx-auto px-6 py-4">
-              <div className="flex flex-col space-y-4">
-                <Link href="/" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  {t.home}
-                </Link>
-                <Link href="/about" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  {t.about}
-                </Link>
-                <Link href="/products" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  {t.products}
-                </Link>
-                <Link href="/contact" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  {t.contact}
-                </Link>
-                <Link href="/wishlist" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  ❤️ {t.wishlist} ({wishlistCount})
-                </Link>
-                <Link href="/cart" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
-                  🛒 {t.cart} ({cartCount})
-                </Link>
-                <Link href="/products" className={`font-bold py-3 px-6 rounded-full text-center transition-all ${
-                  isScrolled
-                    ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black'
-                    : 'bg-white text-yellow-600'
-                }`} onClick={() => setIsOpen(false)}>
-                  {t.orderNow}
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      <style jsx>{`
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
-        }
-      `}</style>
-    </>
-  )
-}>
                   <div>
                     <p className="font-semibold text-gray-900">{user.name}</p>
                     <p className="text-sm text-gray-500">{user.email}</p>
@@ -746,4 +614,138 @@ export default function Navbar() {
               }`}>
                 {t.countries}
               </div>
-            </div
+            </div>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center space-x-4">
+              
+              {/* Search */}
+              <button
+                onClick={() => setShowSearch(!showSearch)}
+                className={`p-2 rounded-full transition-all hover:scale-110 ${
+                  isScrolled 
+                    ? 'text-gray-600 hover:bg-gray-100' 
+                    : 'text-white hover:bg-white hover:bg-opacity-20'
+                }`}
+              >
+                <span className="text-xl">🔍</span>
+              </button>
+
+              {/* Wishlist */}
+              <Link href="/wishlist" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
+                isScrolled 
+                  ? 'text-gray-600 hover:bg-gray-100' 
+                  : 'text-white hover:bg-white hover:bg-opacity-20'
+              }`}>
+                <span className="text-xl">❤️</span>
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-pulse">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* Cart - Connected to Context */}
+              <Link href="/cart" className={`relative p-2 rounded-full transition-all hover:scale-110 ${
+                isScrolled 
+                  ? 'text-gray-600 hover:bg-gray-100' 
+                  : 'text-white hover:bg-white hover:bg-opacity-20'
+              }`}>
+                <span className="text-xl">🛒</span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-bounce">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* User Account - FIXED WITH WORKING DROPDOWN */}
+              <AccountDropdown isScrolled={isScrolled} />
+
+              {/* Order Now CTA */}
+              <Link href="/products" className={`hidden sm:block font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                isScrolled
+                  ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-500 hover:to-orange-500'
+                  : 'bg-white text-yellow-600 hover:bg-gray-100'
+              }`}>
+                {t.orderNow}
+              </Link>
+
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`lg:hidden p-2 rounded-full transition-all ${
+                  isScrolled 
+                    ? 'text-gray-600 hover:bg-gray-100' 
+                    : 'text-white hover:bg-white hover:bg-opacity-20'
+                }`}
+              >
+                {isOpen ? <span className="text-2xl">✕</span> : <span className="text-2xl">☰</span>}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        {showSearch && (
+          <div className="border-t border-white border-opacity-20 py-4">
+            <div className="container mx-auto px-6">
+              <div className="relative max-w-2xl mx-auto">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">🔍</span>
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder}
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-0 focus:outline-none focus:ring-4 focus:ring-yellow-200 text-gray-800"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="lg:hidden border-t border-white border-opacity-20">
+            <div className="container mx-auto px-6 py-4">
+              <div className="flex flex-col space-y-4">
+                <Link href="/" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  {t.home}
+                </Link>
+                <Link href="/about" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  {t.about}
+                </Link>
+                <Link href="/products" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  {t.products}
+                </Link>
+                <Link href="/contact" className={`py-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  {t.contact}
+                </Link>
+                <Link href="/wishlist" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  ❤️ {t.wishlist} ({wishlistCount})
+                </Link>
+                <Link href="/cart" className={`relative py-2 font-medium flex items-center gap-2 ${isScrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setIsOpen(false)}>
+                  🛒 {t.cart} ({cartCount})
+                </Link>
+                <Link href="/products" className={`font-bold py-3 px-6 rounded-full text-center transition-all ${
+                  isScrolled
+                    ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black'
+                    : 'bg-white text-yellow-600'
+                }`} onClick={() => setIsOpen(false)}>
+                  {t.orderNow}
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      <style jsx>{`
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+      `}</style>
+    </>
+  )
+}
+
+            {/*
