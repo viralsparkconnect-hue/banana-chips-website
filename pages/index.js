@@ -357,110 +357,141 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Content - Product Showcase */}
+            {/* Right Content - Animated Product Showcase */}
             <div className="text-center relative">
               <div className="relative max-w-lg mx-auto">
-                {/* Product Image Container */}
+                {/* Product Image Container with Animations */}
                 <div className="relative mb-8">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
-                    {/* Product Image */}
-                    <div className="relative w-full h-80 mb-6">
-                      <img 
-                        src={heroSlides[currentSlide].image}
-                        alt={heroSlides[currentSlide].productName}
-                        className="w-full h-full object-cover rounded-2xl shadow-lg transition-all duration-500 transform hover:scale-105"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      {/* Fallback Product Display */}
+                  <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-2xl transform transition-all duration-700 hover:scale-105 animate-product-float">
+                    {/* Product Image with Slide Animation */}
+                    <div className="relative w-full h-80 mb-6 overflow-hidden rounded-2xl">
                       <div 
-                        className="absolute inset-0 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl flex flex-col items-center justify-center shadow-lg border-2 border-white/50"
-                        style={{ display: 'none' }}
+                        className="flex transition-transform duration-700 ease-in-out"
+                        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                       >
-                        <div className="text-6xl mb-4">🍌</div>
-                        <p className="text-gray-700 font-semibold text-lg">{heroSlides[currentSlide].productName}</p>
+                        {heroSlides.map((slide, index) => (
+                          <div key={index} className="w-full flex-shrink-0 relative">
+                            <img 
+                              src={slide.image}
+                              alt={slide.productName}
+                              className="w-full h-80 object-cover shadow-lg transition-all duration-500 transform hover:scale-110"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                            {/* Animated Fallback Product Display */}
+                            <div 
+                              className="absolute inset-0 bg-gradient-to-br from-yellow-100 to-orange-100 flex flex-col items-center justify-center shadow-lg border-2 border-white/50 animate-pulse"
+                              style={{ display: 'none' }}
+                            >
+                              <div className="text-6xl mb-4 animate-bounce">🍌</div>
+                              <p className="text-gray-700 font-semibold text-lg animate-fade-in">{slide.productName}</p>
+                            </div>
+                            
+                            {/* Animated Overlay Effects */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Floating Animation Elements */}
+                      <div className="absolute top-4 right-4 animate-ping">
+                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      </div>
+                      <div className="absolute bottom-4 left-4 animate-pulse">
+                        <div className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                          Fresh
+                        </div>
                       </div>
                     </div>
 
-                    {/* Product Info Overlay */}
-                    <div className="text-white">
-                      <h3 className="text-2xl font-bold mb-2">{heroSlides[currentSlide].productName}</h3>
+                    {/* Animated Product Info Overlay */}
+                    <div className="text-white transform transition-all duration-500 animate-slide-up">
+                      <h3 className="text-2xl font-bold mb-2 animate-text-glow">{heroSlides[currentSlide].productName}</h3>
                       <div className="flex items-center justify-center gap-3 mb-4">
-                        <span className="text-2xl font-bold">{heroSlides[currentSlide].price}</span>
-                        <span className="text-lg line-through opacity-70">{heroSlides[currentSlide].originalPrice}</span>
-                        <span className="bg-red-500 text-white px-2 py-1 rounded-full text-sm font-bold">
+                        <span className="text-2xl font-bold animate-price-pulse">{heroSlides[currentSlide].price}</span>
+                        <span className="text-lg line-through opacity-70 animate-fade-out">{heroSlides[currentSlide].originalPrice}</span>
+                        <span className="bg-red-500 text-white px-2 py-1 rounded-full text-sm font-bold animate-bounce-horizontal">
                           Save {Math.round((1 - parseInt(heroSlides[currentSlide].price.slice(1)) / parseInt(heroSlides[currentSlide].originalPrice.slice(1))) * 100)}%
                         </span>
                       </div>
-                      <button className="bg-white text-black font-bold py-3 px-6 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                        🛒 Add to Cart
+                      <button 
+                        onClick={() => addToCart(heroSlides[currentSlide])}
+                        className="bg-white text-black font-bold py-3 px-6 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-110 hover:shadow-2xl shadow-lg animate-button-glow group"
+                      >
+                        <span className="group-hover:animate-wiggle inline-block">🛒</span> Add to Cart
                       </button>
                     </div>
                   </div>
 
-                  {/* Product Navigation Arrows */}
+                  {/* Animated Product Navigation Arrows */}
                   <button
                     onClick={() => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 text-white p-3 rounded-full backdrop-blur-sm hover:bg-white/30 transition-all z-10"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 text-white p-3 rounded-full backdrop-blur-sm hover:bg-white/30 transition-all duration-300 hover:scale-125 animate-slide-in-left z-10"
                   >
-                    ←
+                    <span className="animate-arrow-left">←</span>
                   </button>
                   <button
                     onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 text-white p-3 rounded-full backdrop-blur-sm hover:bg-white/30 transition-all z-10"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 text-white p-3 rounded-full backdrop-blur-sm hover:bg-white/30 transition-all duration-300 hover:scale-125 animate-slide-in-right z-10"
                   >
-                    →
+                    <span className="animate-arrow-right">→</span>
                   </button>
                 </div>
                 
-                {/* Product Indicators */}
+                {/* Animated Product Indicators */}
                 <div className="flex justify-center space-x-3 mb-8">
                   {heroSlides.map((slide, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentSlide(index)}
-                      className={`relative group transition-all duration-300 ${
-                        currentSlide === index ? 'scale-125' : 'hover:scale-110'
+                      className={`relative group transition-all duration-500 animate-indicator-bounce ${
+                        currentSlide === index ? 'scale-125 animate-active-indicator' : 'hover:scale-110'
                       }`}
+                      style={{ animationDelay: `${index * 100}ms` }}
                     >
                       <div className={`w-16 h-16 rounded-full overflow-hidden border-2 transition-all duration-300 ${
-                        currentSlide === index ? 'border-white shadow-lg' : 'border-white/50'
+                        currentSlide === index ? 'border-white shadow-2xl animate-glow-ring' : 'border-white/50'
                       }`}>
                         <img 
                           src={slide.image}
                           alt={slide.productName}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
                           onError={(e) => {
                             e.target.style.display = 'none';
                             e.target.nextSibling.style.display = 'flex';
                           }}
                         />
                         <div 
-                          className="absolute inset-0 bg-gradient-to-br from-yellow-200 to-orange-200 flex items-center justify-center text-xl"
+                          className="absolute inset-0 bg-gradient-to-br from-yellow-200 to-orange-200 flex items-center justify-center text-xl animate-pulse"
                           style={{ display: 'none' }}
                         >
-                          🍌
+                          <span className="animate-spin-slow">🍌</span>
                         </div>
                       </div>
-                      {/* Tooltip */}
-                      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {/* Animated Tooltip */}
+                      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 animate-tooltip-appear">
                         {slide.productName}
                       </div>
+                      {/* Active Indicator Dot */}
+                      {currentSlide === index && (
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-ping"></div>
+                      )}
                     </button>
                   ))}
                 </div>
 
-              {/* Trust Badges */}
-              <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
-                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-white">
-                  <div className="text-2xl mb-2">🛡️</div>
-                  <p className="text-sm font-medium">ISO Certified</p>
-                </div>
-                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-white">
-                  <div className="text-2xl mb-2">🏆</div>
-                  <p className="text-sm font-medium">Award Winning</p>
+                              {/* Trust Badges */}
+                <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-white">
+                    <div className="text-2xl mb-2">🛡️</div>
+                    <p className="text-sm font-medium">ISO Certified</p>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-white">
+                    <div className="text-2xl mb-2">🏆</div>
+                    <p className="text-sm font-medium">Award Winning</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -889,6 +920,176 @@ export default function Home() {
           }
         }
 
+        @keyframes product-float {
+          0%, 100% { 
+            transform: translateY(0px) scale(1); 
+          }
+          50% { 
+            transform: translateY(-10px) scale(1.02); 
+          }
+        }
+
+        @keyframes slide-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes text-glow {
+          0%, 100% { 
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
+          }
+          50% { 
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
+          }
+        }
+
+        @keyframes price-pulse {
+          0%, 100% { 
+            transform: scale(1); 
+          }
+          50% { 
+            transform: scale(1.1); 
+          }
+        }
+
+        @keyframes bounce-horizontal {
+          0%, 100% { 
+            transform: translateX(0); 
+          }
+          25% { 
+            transform: translateX(-2px); 
+          }
+          75% { 
+            transform: translateX(2px); 
+          }
+        }
+
+        @keyframes button-glow {
+          0%, 100% { 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+          }
+          50% { 
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3); 
+          }
+        }
+
+        @keyframes wiggle {
+          0%, 100% { 
+            transform: rotate(0deg); 
+          }
+          25% { 
+            transform: rotate(-5deg); 
+          }
+          75% { 
+            transform: rotate(5deg); 
+          }
+        }
+
+        @keyframes arrow-left {
+          0%, 100% { 
+            transform: translateX(0); 
+          }
+          50% { 
+            transform: translateX(-3px); 
+          }
+        }
+
+        @keyframes arrow-right {
+          0%, 100% { 
+            transform: translateX(0); 
+          }
+          50% { 
+            transform: translateX(3px); 
+          }
+        }
+
+        @keyframes slide-in-left {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slide-in-right {
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes indicator-bounce {
+          0%, 100% { 
+            transform: translateY(0); 
+          }
+          50% { 
+            transform: translateY(-5px); 
+          }
+        }
+
+        @keyframes active-indicator {
+          0%, 100% { 
+            transform: scale(1.25) rotate(0deg); 
+          }
+          50% { 
+            transform: scale(1.3) rotate(5deg); 
+          }
+        }
+
+        @keyframes glow-ring {
+          0%, 100% { 
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); 
+          }
+          50% { 
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
+          }
+        }
+
+        @keyframes tooltip-appear {
+          from {
+            opacity: 0;
+            transform: translateY(5px) translateX(-50%);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) translateX(-50%);
+          }
+        }
+
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes fade-out {
+          0% { 
+            opacity: 0.7; 
+          }
+          50% { 
+            opacity: 0.3; 
+          }
+          100% { 
+            opacity: 0.7; 
+          }
+        }
+
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
@@ -899,6 +1100,78 @@ export default function Home() {
 
         .animate-fade-in-up {
           animation: fade-in-up 0.6s ease-out forwards;
+        }
+
+        .animate-product-float {
+          animation: product-float 4s ease-in-out infinite;
+        }
+
+        .animate-slide-up {
+          animation: slide-up 0.8s ease-out;
+        }
+
+        .animate-text-glow {
+          animation: text-glow 2s ease-in-out infinite;
+        }
+
+        .animate-price-pulse {
+          animation: price-pulse 1.5s ease-in-out infinite;
+        }
+
+        .animate-bounce-horizontal {
+          animation: bounce-horizontal 1s ease-in-out infinite;
+        }
+
+        .animate-button-glow {
+          animation: button-glow 2s ease-in-out infinite;
+        }
+
+        .animate-wiggle {
+          animation: wiggle 0.5s ease-in-out;
+        }
+
+        .animate-arrow-left {
+          animation: arrow-left 1s ease-in-out infinite;
+        }
+
+        .animate-arrow-right {
+          animation: arrow-right 1s ease-in-out infinite;
+        }
+
+        .animate-slide-in-left {
+          animation: slide-in-left 0.5s ease-out;
+        }
+
+        .animate-slide-in-right {
+          animation: slide-in-right 0.5s ease-out;
+        }
+
+        .animate-indicator-bounce {
+          animation: indicator-bounce 2s ease-in-out infinite;
+        }
+
+        .animate-active-indicator {
+          animation: active-indicator 2s ease-in-out infinite;
+        }
+
+        .animate-glow-ring {
+          animation: glow-ring 2s ease-in-out infinite;
+        }
+
+        .animate-tooltip-appear {
+          animation: tooltip-appear 0.3s ease-out;
+        }
+
+        .animate-spin-slow {
+          animation: spin-slow 3s linear infinite;
+        }
+
+        .animate-fade-in {
+          animation: fade-in-up 1s ease-out;
+        }
+
+        .animate-fade-out {
+          animation: fade-out 2s ease-in-out infinite;
         }
 
         /* Smooth scrolling */
