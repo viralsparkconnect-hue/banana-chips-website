@@ -1,22 +1,162 @@
 import { useState, useEffect, useMemo } from 'react'
 
 // Mock components - replace with actual imports
-const Navbar = () => (
-  <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-lg">
-    <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-      <div className="text-2xl font-bold text-yellow-600">🍌 Chippyfy</div>
-      <div className="hidden md:flex items-center space-x-8">
-        <a href="/" className="hover:text-yellow-600 transition-colors">Home</a>
-        <a href="/products" className="hover:text-yellow-600 transition-colors">Products</a>
-        <a href="/about" className="hover:text-yellow-600 transition-colors">About</a>
-        <a href="/contact" className="hover:text-yellow-600 transition-colors">Contact</a>
-        <button className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
-          Cart (0)
-        </button>
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [cartCount, setCartCount] = useState(0)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-3' : 'bg-white/90 backdrop-blur-sm py-4'
+    }`}>
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+            <div className="text-3xl animate-bounce-slow">🍌</div>
+            <div className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+              Chippyfy
+            </div>
+            <div className="hidden sm:block bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-bold">
+              Global
+            </div>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-8">
+            <a href="/" className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium relative group">
+              Home
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <div className="relative group">
+              <a href="/products" className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium flex items-center gap-1">
+                Products
+                <span className="text-xs">▼</span>
+              </a>
+              {/* Dropdown Menu */}
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                <div className="p-4 space-y-2">
+                  <a href="/products/classic" className="block px-3 py-2 text-gray-700 hover:bg-yellow-50 hover:text-yellow-700 rounded-lg transition-colors duration-200">
+                    🥨 Classic Collection
+                  </a>
+                  <a href="/products/spicy" className="block px-3 py-2 text-gray-700 hover:bg-red-50 hover:text-red-700 rounded-lg transition-colors duration-200">
+                    🌶️ Spicy Range
+                  </a>
+                  <a href="/products/sweet" className="block px-3 py-2 text-gray-700 hover:bg-orange-50 hover:text-orange-700 rounded-lg transition-colors duration-200">
+                    🍯 Sweet Varieties
+                  </a>
+                  <a href="/products/premium" className="block px-3 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700 rounded-lg transition-colors duration-200">
+                    👑 Premium Selection
+                  </a>
+                </div>
+              </div>
+            </div>
+            <a href="/about" className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium relative group">
+              About Us
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="/shipping" className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium relative group">
+              Global Shipping
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="/contact" className="text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium relative group">
+              Contact
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </div>
+
+          {/* Right Side Actions */}
+          <div className="flex items-center space-x-4">
+            {/* Search */}
+            <button className="hidden md:block p-2 text-gray-600 hover:text-yellow-600 transition-colors duration-300 hover:bg-yellow-50 rounded-lg">
+              🔍
+            </button>
+
+            {/* Cart */}
+            <button className="relative p-2 text-gray-600 hover:text-yellow-600 transition-all duration-300 hover:bg-yellow-50 rounded-lg group">
+              <span className="text-xl group-hover:animate-wiggle">🛒</span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold animate-bounce">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
+            {/* Account */}
+            <button className="hidden sm:flex items-center space-x-2 px-4 py-2 text-gray-700 hover:text-yellow-600 transition-colors duration-300 hover:bg-yellow-50 rounded-lg">
+              <span>👤</span>
+              <span className="font-medium">Account</span>
+            </button>
+
+            {/* CTA Button */}
+            <button className="hidden md:block bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded-xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-bold">
+              Order Now
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="lg:hidden p-2 text-gray-600 hover:text-yellow-600 transition-colors duration-300"
+            >
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1' : ''}`}></span>
+                <span className={`block w-5 h-0.5 bg-current mt-1 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`block w-5 h-0.5 bg-current mt-1 transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1' : ''}`}></span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`lg:hidden transition-all duration-300 overflow-hidden ${
+          isMenuOpen ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-6 space-y-4">
+            <a href="/" className="block text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium py-2">
+              🏠 Home
+            </a>
+            <div className="space-y-2">
+              <p className="text-gray-500 text-sm font-medium">Products</p>
+              <a href="/products/classic" className="block text-gray-600 hover:text-yellow-600 transition-colors duration-300 py-1 pl-4">
+                🥨 Classic Collection
+              </a>
+              <a href="/products/spicy" className="block text-gray-600 hover:text-yellow-600 transition-colors duration-300 py-1 pl-4">
+                🌶️ Spicy Range
+              </a>
+              <a href="/products/sweet" className="block text-gray-600 hover:text-yellow-600 transition-colors duration-300 py-1 pl-4">
+                🍯 Sweet Varieties
+              </a>
+            </div>
+            <a href="/about" className="block text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium py-2">
+              ℹ️ About Us
+            </a>
+            <a href="/shipping" className="block text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium py-2">
+              🌍 Global Shipping
+            </a>
+            <a href="/contact" className="block text-gray-700 hover:text-yellow-600 transition-colors duration-300 font-medium py-2">
+              📞 Contact
+            </a>
+            <div className="pt-4 border-t border-gray-200">
+              <button className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 font-bold shadow-lg">
+                🛒 Order Now
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </nav>
-)
+    </nav>
+  )
+}
 
 const Footer = () => (
   <footer className="bg-gray-900 text-white py-12">
@@ -64,11 +204,56 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [isVisible, setIsVisible] = useState({})
   const [email, setEmail] = useState('')
+  
+  // Cart State Management
+  const [cartItems, setCartItems] = useState([])
+  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [showAddedToast, setShowAddedToast] = useState(false)
 
-  // Mock cart functionality
+  // Cart functionality
   const addToCart = (product) => {
-    console.log('Added to cart:', product)
-    // You would implement actual cart logic here
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(item => item.id === product.id)
+      if (existingItem) {
+        return prevItems.map(item =>
+          item.id === product.id 
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      } else {
+        return [...prevItems, { ...product, quantity: 1 }]
+      }
+    })
+    
+    // Show success toast
+    setShowAddedToast(true)
+    setTimeout(() => setShowAddedToast(false), 3000)
+  }
+
+  const removeFromCart = (productId) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== productId))
+  }
+
+  const updateQuantity = (productId, newQuantity) => {
+    if (newQuantity === 0) {
+      removeFromCart(productId)
+      return
+    }
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === productId 
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    )
+  }
+
+  const getTotalItems = () => {
+    return cartItems.reduce((total, item) => total + item.quantity, 0)
+  }
+
+  const getTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0)
   }
 
   const heroSlides = useMemo(() => [
@@ -290,7 +475,25 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      <Navbar 
+        cartItems={cartItems}
+        isCartOpen={isCartOpen}
+        setIsCartOpen={setIsCartOpen}
+        removeFromCart={removeFromCart}
+        updateQuantity={updateQuantity}
+        getTotalItems={getTotalItems}
+        getTotalPrice={getTotalPrice}
+      />
+
+      {/* Success Toast */}
+      <div className={`fixed top-20 right-6 z-50 transition-all duration-300 transform ${
+        showAddedToast ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+      }`}>
+        <div className="bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-3">
+          <span className="text-xl">✅</span>
+          <span className="font-medium">Added to cart!</span>
+        </div>
+      </div>
       
       {/* Hero Section with improved performance */}
       <section className="relative min-h-screen flex items-center bg-gradient-to-br from-yellow-400 via-orange-400 to-red-500 overflow-hidden pt-20">
