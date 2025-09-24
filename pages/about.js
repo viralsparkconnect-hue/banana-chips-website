@@ -148,8 +148,8 @@ export default function About() {
               <h2 className="text-5xl font-bold text-gray-800 mb-8">From Nashik to the World</h2>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
                 <p>
-                  It all started in 2020 when founders <strong className="text-gray-800">Amol and Pratik Patil </strong> 
-                  realized there was a massive opportunity to share India's authentic banana chip heritage with the world. 
+                  It all started in 2020 when founders <strong className="text-gray-800">Amol and Pratik Patil</strong>  
+                   realized there was a massive opportunity to share India's authentic banana chip heritage with the world. 
                   Growing up in Maharashtra, they were surrounded by the tradition of banana cultivation and processing, 
                   but wanted to elevate it to meet international standards.
                 </p>
