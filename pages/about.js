@@ -7,7 +7,7 @@ export default function About() {
       name: "Amol Patil",
       position: "Founder & CEO",
       image: "👨‍💼",
-      description: "Visionary leader with 10+ years in food industry. Passionate about bringing healthy snacks to every home globally.",
+      description: "Visionary leader with 5+ years in food industry. Passionate about bringing healthy snacks to every home globally.",
       achievements: ["Food Technology Graduate", "Former Quality Manager at leading FMCG", "Awarded Best Entrepreneur 2024"],
       quote: "Our dream is to make Chippyfy a household name from New York to Tokyo, while staying true to our Maharashtra roots."
     },
@@ -148,7 +148,7 @@ export default function About() {
               <h2 className="text-5xl font-bold text-gray-800 mb-8">From Nashik to the World</h2>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
                 <p>
-                  It all started in 2020 when founders <strong className="text-gray-800">Amol and Pratik Patil</strong> 
+                  It all started in 2020 when founders <strong className="text-gray-800">Amol and Pratik Patil </strong> 
                   realized there was a massive opportunity to share India's authentic banana chip heritage with the world. 
                   Growing up in Maharashtra, they were surrounded by the tradition of banana cultivation and processing, 
                   but wanted to elevate it to meet international standards.
